@@ -6,6 +6,7 @@ use Former\Helpers;
 use HtmlObject\Element;
 use HtmlObject\Traits\Tag;
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 
 /**
  * Helper class to build groups
@@ -294,7 +295,10 @@ class Group extends Tag
 	public function blockHelp($help, $attributes = array())
 	{
 		// Reserved method
-		if ($this->app['former.framework']->isnt('TwitterBootstrap') && $this->app['former.framework']->isnt('TwitterBootstrap3')) {
+		if ($this->app['former.framework']->isnt('TwitterBootstrap') &&
+		    $this->app['former.framework']->isnt('TwitterBootstrap3') &&
+		    $this->app['former.framework']->isnt('TwitterBootstrap4')
+		) {
 			throw new BadMethodCallException('This method is only available on the Bootstrap framework');
 		}
 
@@ -427,13 +431,13 @@ class Group extends Tag
 	 */
 	protected function getHelp()
 	{
-		$inline = array_get($this->help, 'inline');
-		$block  = array_get($this->help, 'block');
+		$inline = Arr::get($this->help, 'inline');
+		$block  = Arr::get($this->help, 'block');
 
 		// Replace help text with error if any found
 		$errors = $this->app['former']->getErrors();
 		if ($errors and $this->app['former']->getOption('error_messages')) {
-			$inline = $this->app['former.framework']->createHelp($errors);
+			$inline = $this->app['former.framework']->createValidationError($errors);
 		}
 
 		return join(null, array($inline, $block));

@@ -5,6 +5,7 @@ use Closure;
 use Former\Exceptions\InvalidFrameworkException;
 use Former\Traits\Field;
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 use Illuminate\Support\MessageBag;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -146,16 +147,13 @@ class Former
 		}
 
 		// Checking for any supplementary classes
-		$classes = explode('_', $method);
-		$method  = array_pop($classes);
+		$modifiers = explode('_', $method);
+		$method  = array_pop($modifiers);
 
 		// Dispatch to the different Form\Fields
-		$framework = isset($this->app['former.form.framework']) ? $this->app['former.form.framework'] : $this->app['former.framework'];
 		$field     = $this->dispatch->toFields($method, $parameters);
-
-		if ($field instanceof Field) {
-			$field = $framework->getFieldClasses($field, $classes);
-		}
+		$field->setModifiers($modifiers);
+		$field->addClass('');
 
 		// Else bind field
 		$this->app->instance('former.field', $field);
@@ -304,17 +302,33 @@ class Former
 		foreach ($rules as $name => $fieldRules) {
 			$expFieldRules = $fieldRules;
 			if (!is_array($expFieldRules)) {
+				if (is_object($expFieldRules)) {
+					continue;
+				}
+
 				$expFieldRules = explode('|', $expFieldRules);
 				$expFieldRules = array_map('trim', $expFieldRules);
 			}
 
 			foreach ($expFieldRules as $rule) {
+				if (is_object($rule)) {
+					continue;
+				}
 
 				$parameters = null;
 
-				// If we have a rule with a value
 				if (($colon = strpos($rule, ':')) !== false) {
-					$parameters = str_getcsv(substr($rule, $colon + 1));
+					$rulename = substr($rule, 0, $colon);
+
+					/**
+					 * Regular expressions may contain commas and should not be divided by str_getcsv.
+					 * For regular expressions we are just using the complete expression as a parameter.
+					 */
+					if ($rulename !== 'regex') {
+						$parameters = str_getcsv(substr($rule, $colon + 1));
+					} else {
+						$parameters = [substr($rule, $colon + 1)];
+					}
 				}
 
 				// Exclude unsupported rules
@@ -475,13 +489,13 @@ class Former
 	public function getRules($name)
 	{
 		// Check the rules for the name as given
-		$ruleset = array_get($this->rules, $name);
+		$ruleset = Arr::get($this->rules, $name);
 
 		// If no rules found, convert to dot notation and try again
 		if (is_null($ruleset)) {
 			$name = str_replace(array('[', ']'), array('.', ''), $name);
 			$name = trim($name, '.');
-			$ruleset = array_get($this->rules, $name);
+			$ruleset = Arr::get($this->rules, $name);
 		}
 
 		return $ruleset;

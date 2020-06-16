@@ -3,6 +3,7 @@ namespace Former\TestCases;
 
 use Former\FormerServiceProvider;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Foundation\Application;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -31,7 +32,12 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		if (!static::$appCache) {
-			$this->app = FormerServiceProvider::make();
+			// Added to prevent issues with the missing method used in Laravel 6+
+			MacroableContainer::macro('configurationIsCached', function () {
+				return false;
+			});
+
+			$this->app = FormerServiceProvider::make(new MacroableContainer);
 
 			// Setup Illuminate
 			$this->mockSession();
@@ -50,9 +56,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Bind mocked expectations into the Container
 	 *
-	 * @param string  $binding
-	 * @param string  $name
-	 * @param \Closure $expectations
+	 * @param string|null $binding If null, don't save this mock as $this->$binding. Useful for one-time-use mocks.
+	 * @param string      $name
+	 * @param \Closure    $expectations
 	 *
 	 * @return Mockery
 	 */
@@ -65,7 +71,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 		}
 
 		// Bind into container
-		$this->$binding = $mocked;
+		if ($binding) {
+			$this->$binding = $mocked;
+		}
 
 		return $mocked;
 	}
@@ -148,6 +156,16 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 				'small'  => 'sm',
 				'mini'   => 'xs',
 			),
+			'TwitterBootstrap4.icon.prefix'       => 'fa',
+			'TwitterBootstrap4.icon.set'          => 'fa',
+			'TwitterBootstrap4.icon.tag'          => 'i',
+			'TwitterBootstrap4.labelWidths'       => array('large' => 2, 'small' => 4),
+			'TwitterBootstrap4.viewports'         => array(
+				'large'  => 'lg',
+				'medium' => 'md',
+				'small'  => 'sm',
+				'mini'   => 'xs',
+			),
 			'ZurbFoundation.icon.prefix'          => 'fi',
 			'ZurbFoundation.icon.set'             => null,
 			'ZurbFoundation.icon.tag'             => 'i',
@@ -224,15 +242,19 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock a Validator instance
 	 *
+	 * @param string $field
+	 * @param string $label
+	 * @param string $binding
+	 *
 	 * @return Mockery
 	 */
-	protected function mockValidator()
+	protected function mockValidator($field = 'required', $label = 'required', $binding = 'validator')
 	{
 		$messageBag = $this->mockMessageBag(array(
-			'required' => 'The required field is required.',
+			$field => "The $label field is required.",
 		));
 
-		return $this->mock('validator', 'Illuminate\Contracts\Validation\Validator', function ($mock) use ($messageBag) {
+		return $this->mock($binding, 'Illuminate\Contracts\Validation\Validator', function ($mock) use ($messageBag) {
 			return $mock->shouldReceive('getMessageBag')->andReturn($messageBag);
 		});
 	}

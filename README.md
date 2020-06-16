@@ -4,9 +4,6 @@
 [![Build Status](http://img.shields.io/travis/formers/former.svg?style=flat)](https://travis-ci.org/formers/former)
 [![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/former.svg?style=flat)](https://packagist.org/packages/anahkiasen/former)
 [![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/former.svg?style=flat)](https://packagist.org/packages/anahkiasen/former)
-)
-
-### For Laravel 4, use the [master branch](https://github.com/formers/former/tree/master)
 
 Former outputs form elements in HTML compatible with your favorite CSS framework (Bootstrap and Foundation are currently supported). Former also handles repopulation after validation errors, including automatically rendering error text with affected fields.
 
@@ -15,6 +12,8 @@ Former outputs form elements in HTML compatible with your favorite CSS framework
 Former provides a fluent method of form creation, allowing you to do:
 
 ```php
+Former::framework('TwitterBootstrap3');
+
 Former::horizontal_open()
   ->id('MyForm')
   ->rules(['name' => 'required'])
@@ -22,11 +21,14 @@ Former::horizontal_open()
 
   Former::xlarge_text('name') # Bootstrap sizing
     ->class('myclass') # arbitrary attribute support
+    ->label('Full name')
     ->value('Joseph')
-    ->required(); # HTML5 validation
+    ->required() # HTML5 validation
+    ->help('Please enter your full name');
 
   Former::textarea('comments')
-    ->rows(10)->columns(20)
+    ->rows(10)
+    ->columns(20)
     ->autofocus();
 
   Former::actions()
@@ -46,21 +48,23 @@ This is the core of it, but Former offers a lot more. I invite you to consult th
 ### Installation
 Require Former package using Composer:
 
-    composer require anahkiasen/former   # For Laravel 4, use anahkiasen/former:~3.5
+    composer require anahkiasen/former
 
-Then run "composer update". Next modify your `config/app.php`. In the `providers` array add :
+Publish config files with artisan:
+    
+    php artisan vendor:publish --provider="Former\FormerServiceProvider"
+
+#### App.php config for Laravel 5.4 and below
+
+For Laravel 5.4 and below, you must modify your `config/app.php`.
+
+In the `providers` array add :
 
     Former\FormerServiceProvider::class
 
 Add then alias Former's main class by adding its facade to the `aliases` array in the same file :
 
     'Former' => 'Former\Facades\Former',
-
-If you don't use Laravel, you can add Former to your Composer file, then use it with:
-
-```php
-use Former\Facades\Former;
-```
 
 ### Table of contents
 

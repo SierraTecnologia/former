@@ -3,6 +3,22 @@ namespace Former\Fields;
 
 use Former\Dummy\DummyEloquent;
 use Former\TestCases\FormerTests;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
+
+class HtmlValue implements Htmlable {
+
+	private $value;
+
+	function __construct($value)
+	{
+		$this->value = $value;
+	}
+
+	function toHtml() {
+		return $this->value;
+	}
+}
 
 class InputTest extends FormerTests
 {
@@ -19,7 +35,7 @@ class InputTest extends FormerTests
 		$this->mockConfig(array('automatic_label' => false));
 
 		$input      = $this->former->text('foo')->__toString();
-		$matchField = array_except($this->matchField(), 'id');
+		$matchField = Arr::except($this->matchField(), 'id');
 
 		$this->assertHTML($this->matchControlGroup(), $input);
 		$this->assertHTML($matchField, $input);
@@ -28,7 +44,7 @@ class InputTest extends FormerTests
 	public function testCanCreateSingleTextWithoutLabelOnStart()
 	{
 		$input      = $this->former->text('foo', '')->__toString();
-		$matchField = array_except($this->matchField(), 'id');
+		$matchField = Arr::except($this->matchField(), 'id');
 
 		$this->assertHTML($this->matchControlGroup(), $input);
 		$this->assertHTML($matchField, $input);
@@ -37,7 +53,7 @@ class InputTest extends FormerTests
 	public function testCanCreateSingleTextWithoutLabel()
 	{
 		$input      = $this->former->text('foo')->label(null)->__toString();
-		$matchField = array_except($this->matchField(), 'id');
+		$matchField = Arr::except($this->matchField(), 'id');
 
 		$this->assertHTML($this->matchControlGroup(), $input);
 		$this->assertHTML($matchField, $input);
@@ -47,7 +63,7 @@ class InputTest extends FormerTests
 	{
 		$input      = $this->former->search('foo')->__toString();
 		$matchField = $this->matchField();
-		array_set($matchField, 'attributes.class', 'search-query');
+		Arr::set($matchField, 'attributes.class', 'search-query');
 
 		$this->assertControlGroup($input);
 		$this->assertHTML($matchField, $input);
@@ -59,7 +75,7 @@ class InputTest extends FormerTests
 
 		$input = $this->former->text('foo')->data('foo')->class('bar')->__toString();
 		$label = $this->matchLabel('Foo');
-		array_forget($label, 'attributes.class');
+		Arr::forget($label, 'attributes.class');
 
 		$this->assertHTML($label, $input);
 		$this->assertHTML($this->matchField(), $input);
@@ -93,6 +109,22 @@ class InputTest extends FormerTests
 		$this->assertHTML($this->matchLabel('Bar', 'foo'), $input);
 		$this->assertHTML($this->matchField(), $input);
 		$this->assertHTML($this->matchControlGroup(), $input);
+	}
+
+	public function testCanCreateTextLabelWithoutUppercase()
+	{
+		$static = $this->former->text('foo')->label(new HtmlValue('bar'), $this->testAttributes)->__toString();
+		$this->assertEquals(
+			'<div class="control-group"><label class="foo control-label" data-foo="bar" for="foo">bar</label>' .
+			'<div class="controls"><input id="foo" type="text" name="foo"></div></div>', $static);
+	}
+
+	public function testCanCreateTextLabelContainingHtml()
+	{
+		$static = $this->former->text('foo')->label(new HtmlValue('<span>bar</span>'), $this->testAttributes)->__toString();
+		$this->assertEquals(
+			'<div class="control-group"><label class="foo control-label" data-foo="bar" for="foo"><span>bar</span></label>' .
+			'<div class="controls"><input id="foo" type="text" name="foo"></div></div>', $static);
 	}
 
 	public function testCanCreateTextLabelWithoutBootstrap()

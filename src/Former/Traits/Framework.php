@@ -1,12 +1,14 @@
 <?php
 namespace Former\Traits;
 
+use Former\Interfaces\FrameworkInterface;
 use HtmlObject\Element;
+use Illuminate\Support\Arr;
 
 /**
  * Base helpers and common methods to all frameworks
  */
-abstract class Framework
+abstract class Framework implements FrameworkInterface
 {
 	/**
 	 * The Container
@@ -200,9 +202,9 @@ abstract class Framework
 		}
 
 		// icon settings can be overridden for a specific icon
-		$tag    = array_get($iconSettings, 'tag', $this->iconTag);
-		$set    = array_get($iconSettings, 'set', $this->iconSet);
-		$prefix = array_get($iconSettings, 'prefix', $this->iconPrefix);
+		$tag    = Arr::get($iconSettings, 'tag', $this->iconTag);
+		$set    = Arr::get($iconSettings, 'set', $this->iconSet);
+		$prefix = Arr::get($iconSettings, 'prefix', $this->iconPrefix);
 
 		return Element::create($tag, null, $attributes)->addClass("$set $prefix-$iconType");
 	}
@@ -308,5 +310,22 @@ abstract class Framework
 	public function wrapLabel($label)
 	{
 		return $label;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////// RENDER BLOCKS /////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Render an validation error text
+	 *
+	 * @param string $text
+	 * @param array  $attributes
+	 *
+	 * @return string
+	 */
+	public function createValidationError($text, $attributes = array())
+	{
+		return $this->createHelp($text, $attributes);
 	}
 }

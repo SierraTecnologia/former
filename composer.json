@@ -1,7 +1,7 @@
 {
-  "name": "weotch/former",
+  "name": "sierratecnologia/former",
   "description": "A powerful form builder",
-  "homepage": "http://anahkiasen.github.com/former/",
+  "homepage": "http://formers.github.io/former/",
   "license": "MIT",
   "keywords": [
     "bootstrap",
@@ -18,20 +18,22 @@
   "require": {
     "php": ">=5.4.0",
     "anahkiasen/html-object": "~1.4",
-    "illuminate/config": "~5.0",
-    "illuminate/container": "~5.0",
-    "illuminate/http": "~5.0",
-    "illuminate/routing": "~5.0",
-    "illuminate/session": "~5.0",
-    "illuminate/translation": "~5.0"
+    "illuminate/config": "~5.0|^6.0|^7.0",
+    "illuminate/container": "~5.0|^6.0|^7.0",
+    "illuminate/http": "~5.0|^6.0|^7.0",
+    "illuminate/routing": "~5.0|^6.0|^7.0",
+    "illuminate/session": "~5.0|^6.0|^7.0",
+    "illuminate/translation": "~5.0|^6.0|^7.0",
+    "illuminate/support": "~5.0|^6.0|^7.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4",
     "mockery/mockery": "~0.9.1",
-    "illuminate/database": "~5.0"
+    "illuminate/database": "~5.0|^6.0|^7.0"
   },
   "replace": {
-    "anahkiasen/former": "4.0.*"
+    "weotch/former": "4.*.*",
+    "anahkiasen/former": "4.*.*"
   },
   "autoload": {
     "psr-4": {
@@ -40,6 +42,19 @@
         "tests"
       ],
       "Laravel\\": "src/Laravel"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+        "dev-master": "4.1-dev"
+    },
+    "laravel": {
+      "providers": [
+          "Former\\FormerServiceProvider"
+      ],
+      "aliases": {
+          "Former": "Former\\Facades\\Former"
+      }
     }
   }
 }

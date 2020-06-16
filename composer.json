@@ -16,24 +16,24 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
-    "anahkiasen/html-object": "~1.4",
-    "illuminate/config": "~5.0|^6.0|^7.0|^8.0",
-    "illuminate/container": "~5.0|^6.0|^7.0|^8.0",
-    "illuminate/http": "~5.0|^6.0|^7.0|^8.0",
-    "illuminate/routing": "~5.0|^6.0|^7.0|^8.0",
-    "illuminate/session": "~5.0|^6.0|^7.0|^8.0",
-    "illuminate/translation": "~5.0|^6.0|^7.0|^8.0",
-    "illuminate/support": "~5.0|^6.0|^7.0|^8.0"
+    "php": ">=7.0",
+    "anahkiasen/html-object": ">=1.4",
+    "illuminate/config": "^6.0|^7.0|^8.0",
+    "illuminate/container": "^6.0|^7.0|^8.0",
+    "illuminate/http": "^6.0|^7.0|^8.0",
+    "illuminate/routing": "^6.0|^7.0|^8.0",
+    "illuminate/session": "^6.0|^7.0|^8.0",
+    "illuminate/translation": "^6.0|^7.0|^8.0",
+    "illuminate/support": "^6.0|^7.0|^8.0"
   },
   "require-dev": {
     "phpunit/phpunit": ">=4",
     "mockery/mockery": ">=0.9.1",
-    "illuminate/database": "~5.0|^6.0|^7.0|^8.0"
+    "illuminate/database": "^6.0|^7.0|^8.0"
   },
   "replace": {
-    "weotch/former": "4.*.*|5.*.*",
-    "anahkiasen/former": "4.*.*|5.*.*"
+    "weotch/former": "*",
+    "anahkiasen/former": "*"
   },
   "autoload": {
     "psr-4": {
@@ -46,7 +46,7 @@
   },
   "extra": {
     "branch-alias": {
-        "dev-master": "5.0-dev"
+        "dev-master": "5.x-dev"
     },
     "laravel": {
       "providers": [
@@ -56,5 +56,7 @@
           "Former": "Former\\Facades\\Former"
       }
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

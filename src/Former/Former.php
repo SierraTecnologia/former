@@ -47,7 +47,7 @@ class Former
 	 *
 	 * @var array
 	 */
-	protected $rules = array();
+	public $rules = array();
 
 	/**
 	 * An array of field macros

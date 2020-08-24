@@ -13,7 +13,7 @@ abstract class FormerTests extends ContainerTestCase
 	/**
 	 * Setup the app for testing
 	 */
-	public function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 

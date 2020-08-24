@@ -6,7 +6,7 @@ use Former\TestCases\FormerTests;
 class TwitterBootstrap4Test extends FormerTests
 {
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 

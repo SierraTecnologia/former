@@ -29,7 +29,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Build the IoC Container for the tests
 	 */
-	public function setUp()
+	protected function setUp(): void
 	{
 		if (!static::$appCache) {
 			// Added to prevent issues with the missing method used in Laravel 6+

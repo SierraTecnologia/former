@@ -44,6 +44,20 @@
       "Laravel\\": "src/Laravel"
     }
   },
+  "repositories": [
+      {
+          "type": "path",
+          "url": "../**",
+          "options": {
+              "symlink": true
+          }
+      }
+  ],
+  "config": {
+      "sort-packages": true,
+      "preferred-install": "dist",
+      "optimize-autoloader": true
+  },
   "extra": {
     "branch-alias": {
         "dev-master": "5.x-dev"

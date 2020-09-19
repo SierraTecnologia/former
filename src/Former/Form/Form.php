@@ -98,9 +98,11 @@ class Form extends FormerObject
         $this->url       = $url;
         $this->populator = $populator;
 
-        $this->app->singleton('former.form.framework', function ($app) {
-            return clone $app['former.framework'];
-        });
+        $this->app->singleton(
+            'former.form.framework', function ($app) {
+                return clone $app['former.framework'];
+            }
+        );
     }
     
     private function openFormParameters(array $parameters)
@@ -161,8 +163,8 @@ class Form extends FormerObject
     /**
      * Opens up magically a form
      *
-     * @param  string $type       The form type asked
-     * @param  array  $parameters Parameters passed
+     * @param string $type       The form type asked
+     * @param array  $parameters Parameters passed
      *
      * @return Form             A form opening tag
      */
@@ -232,7 +234,7 @@ class Form extends FormerObject
     /**
      * Change the form's action
      *
-     * @param  string|null $action The new action
+     * @param string|null $action The new action
      *
      * @return $this
      */
@@ -246,7 +248,7 @@ class Form extends FormerObject
     /**
      * Change the form's method
      *
-     * @param  string $method The method to use
+     * @param string $method The method to use
      *
      * @return $this
      */
@@ -260,7 +262,7 @@ class Form extends FormerObject
     /**
      * Whether the form should be secure
      *
-     * @param  boolean $secure Secure or not
+     * @param boolean $secure Secure or not
      *
      * @return $this
      */
@@ -274,8 +276,8 @@ class Form extends FormerObject
     /**
      * Change the form's action and method to a route
      *
-     * @param  string $name   The name of the route to use
-     * @param  array  $params Any route parameters
+     * @param string $name   The name of the route to use
+     * @param array  $params Any route parameters
      *
      * @return Form
      */
@@ -287,8 +289,8 @@ class Form extends FormerObject
     /**
      * Change the form's action to a controller method
      *
-     * @param  string $name   The controller and method
-     * @param  array  $params Any method parameters
+     * @param string $name   The controller and method
+     * @param array  $params Any method parameters
      *
      * @return Form
      */
@@ -366,7 +368,7 @@ class Form extends FormerObject
     /**
      * Find the method of a route by its _uses or name
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return string
      */
@@ -380,7 +382,7 @@ class Form extends FormerObject
         if (!Str::contains($name, '@')) {
             $routes = $this->app['router']->getRoutes();
             $route  = method_exists($routes, 'getByName') ? $routes->getByName($name) : $routes->get($name);
-        // Get string by uses
+            // Get string by uses
         } else {
             foreach ($this->app['router']->getRoutes() as $route) {
                 $routeUses = method_exists($route, 'getOption') ? $route->getOption('_uses') : Arr::get($route->getAction(), 'controller');
@@ -422,7 +424,7 @@ class Form extends FormerObject
     /**
      * Apply various parameters according to form type
      *
-     * @param  string $type The original form type provided
+     * @param string $type The original form type provided
      *
      * @return string The final form type
      */
@@ -451,9 +453,11 @@ class Form extends FormerObject
 
         // If raw form
         if ($type == 'raw') {
-            $this->app->bind('former.form.framework', function ($app) {
-                return $app['former']->getFrameworkInstance('Nude');
-            });
+            $this->app->bind(
+                'former.form.framework', function ($app) {
+                    return $app['former']->getFrameworkInstance('Nude');
+                }
+            );
         }
 
         // Use default form type if the one provided is invalid

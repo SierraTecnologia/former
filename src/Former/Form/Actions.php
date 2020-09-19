@@ -12,110 +12,112 @@ use Illuminate\Support\Str;
  */
 class Actions extends FormerObject
 {
-	/**
-	 * The Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+    /**
+     * The Container
+     *
+     * @var Container
+     */
+    protected $app;
 
-	/**
-	 * The Actions element
-	 *
-	 * @var string
-	 */
-	protected $element = 'div';
+    /**
+     * The Actions element
+     *
+     * @var string
+     */
+    protected $element = 'div';
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////// CORE METHODS ///////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////// CORE METHODS ///////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Constructs a new Actions block
-	 *
-	 * @param Container $app
-	 * @param array     $value The block content
-	 */
-	public function __construct(Container $app, $value)
-	{
-		$this->app   = $app;
-		$this->value = $value;
+    /**
+     * Constructs a new Actions block
+     *
+     * @param Container $app
+     * @param array     $value The block content
+     */
+    public function __construct(Container $app, $value)
+    {
+        $this->app   = $app;
+        $this->value = $value;
 
-		// Add specific actions classes to the actions block
-		$this->addClass($this->app['former.framework']->getActionClasses());
-	}
+        // Add specific actions classes to the actions block
+        $this->addClass($this->app['former.framework']->getActionClasses());
+    }
 
-	/**
-	 * Get the content of the Actions block
-	 *
-	 * @return string
-	 */
-	public function getContent()
-	{
-		$content = array_map(function ($content) {
-			return method_exists($content, '__toString') ? (string) $content : $content;
-		}, $this->value);
+    /**
+     * Get the content of the Actions block
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        $content = array_map(
+            function ($content) {
+                return method_exists($content, '__toString') ? (string) $content : $content;
+            }, $this->value
+        );
 
-		return $this->app['former.framework']->wrapActions(implode(' ', $content));
-	}
+        return $this->app['former.framework']->wrapActions(implode(' ', $content));
+    }
 
-	/**
-	 * Dynamically append actions to the block
-	 *
-	 * @param string $method     The method
-	 * @param array  $parameters Its parameters
-	 *
-	 * @return Actions
-	 */
-	public function __call($method, $parameters)
-	{
-		// Dynamically add buttons to an actions block
-		if ($this->isButtonMethod($method)) {
-			$text       = Arr::get($parameters, 0);
-			$link       = Arr::get($parameters, 1);
-			$attributes = Arr::get($parameters, 2);
-			if (!$attributes and is_array($link)) {
-				$attributes = $link;
-			}
+    /**
+     * Dynamically append actions to the block
+     *
+     * @param string $method     The method
+     * @param array  $parameters Its parameters
+     *
+     * @return Actions
+     */
+    public function __call($method, $parameters)
+    {
+        // Dynamically add buttons to an actions block
+        if ($this->isButtonMethod($method)) {
+            $text       = Arr::get($parameters, 0);
+            $link       = Arr::get($parameters, 1);
+            $attributes = Arr::get($parameters, 2);
+            if (!$attributes and is_array($link)) {
+                $attributes = $link;
+            }
 
-			return $this->createButtonOfType($method, $text, $link, $attributes);
-		}
+            return $this->createButtonOfType($method, $text, $link, $attributes);
+        }
 
-		return parent::__call($method, $parameters);
-	}
+        return parent::__call($method, $parameters);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Create a new Button and add it to the actions
-	 *
-	 * @param string $type       The button type
-	 * @param string $name       Its name
-	 * @param string $link       A link to point to
-	 * @param array  $attributes Its attributes
-	 *
-	 * @return Actions
-	 */
-	private function createButtonOfType($type, $name, $link, $attributes)
-	{
-		$this->value[] = $this->app['former']->$type($name, $link, $attributes)->__toString();
+    /**
+     * Create a new Button and add it to the actions
+     *
+     * @param string $type       The button type
+     * @param string $name       Its name
+     * @param string $link       A link to point to
+     * @param array  $attributes Its attributes
+     *
+     * @return Actions
+     */
+    private function createButtonOfType($type, $name, $link, $attributes)
+    {
+        $this->value[] = $this->app['former']->$type($name, $link, $attributes)->__toString();
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Check if a given method calls a button or not
-	 *
-	 * @param string $method The method to check
-	 *
-	 * @return boolean
-	 */
-	private function isButtonMethod($method)
-	{
-		$buttons = array('button', 'submit', 'link', 'reset');
+    /**
+     * Check if a given method calls a button or not
+     *
+     * @param string $method The method to check
+     *
+     * @return boolean
+     */
+    private function isButtonMethod($method)
+    {
+        $buttons = array('button', 'submit', 'link', 'reset');
 
-		return (bool) Str::contains($method, $buttons);
-	}
+        return (bool) Str::contains($method, $buttons);
+    }
 }

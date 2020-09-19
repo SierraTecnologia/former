@@ -52,9 +52,9 @@ class Elements
     /**
      * Creates a label tag
      *
-     * @param  string $label      The label content
-     * @param  string $for        The field the label's for
-     * @param  array  $attributes The label's attributes
+     * @param string $label      The label content
+     * @param string $for        The field the label's for
+     * @param array  $attributes The label's attributes
      *
      * @return Element             A <label> tag
      */
@@ -82,8 +82,8 @@ class Elements
     /**
      * Creates a form legend
      *
-     * @param  string $legend     The text
-     * @param  array  $attributes Its attributes
+     * @param string $legend     The text
+     * @param array  $attributes Its attributes
      *
      * @return Element             A <legend> tag
      */

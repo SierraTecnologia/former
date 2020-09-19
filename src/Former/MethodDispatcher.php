@@ -63,8 +63,8 @@ class MethodDispatcher
     /**
      * Dispatch a call to a registered macro
      *
-     * @param  string $method     The macro's name
-     * @param  array  $parameters The macro's arguments
+     * @param string $method     The macro's name
+     * @param array  $parameters The macro's arguments
      *
      * @return mixed
      */
@@ -209,7 +209,7 @@ class MethodDispatcher
     /**
      * Get the correct class to call according to the created field
      *
-     * @param  string $method The field created
+     * @param string $method The field created
      *
      * @return string The correct class
      */
@@ -230,19 +230,19 @@ class MethodDispatcher
 
         // Else convert known fields to their classes
         switch ($method) {
-            case 'submit':
-            case 'link':
-            case 'reset':
-                $class = Former::FIELDSPACE.'Button';
-                break;
+        case 'submit':
+        case 'link':
+        case 'reset':
+            $class = Former::FIELDSPACE.'Button';
+            break;
 
-            case 'multiselect':
-                $class = Former::FIELDSPACE.'Select';
-                break;
+        case 'multiselect':
+            $class = Former::FIELDSPACE.'Select';
+            break;
 
-            default:
-                $class = Former::FIELDSPACE.'Input';
-                break;
+        default:
+            $class = Former::FIELDSPACE.'Input';
+            break;
         }
 
         return $class;

@@ -419,8 +419,10 @@ abstract class Field extends FormerObject implements FieldInterface
 
     /**
      * Use values stored in Former to populate the current field
+     *
+     * @param null|string $fallback
      */
-    private function repopulate($fallback = null)
+    private function repopulate(?string $fallback = null)
     {
         // Get values from POST, populated, and manually set value
         $post      = $this->app['former']->getPost($this->name);

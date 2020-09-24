@@ -157,7 +157,10 @@ class Choice extends Field
         return $children;
     }
 
-    public function getOptGroup($label, $options)
+    /**
+     * @param array-key $label
+     */
+    public function getOptGroup($label, array $options)
     {
         $element = Element::create('optgroup')->label($label);
         $children = [];
@@ -170,6 +173,9 @@ class Choice extends Field
         return $element;
     }
 
+    /**
+     * @param array-key $key
+     */
     public function getOption($key, $value)
     {
         if (is_array($value) and isset($value['value'])) {
@@ -189,7 +195,7 @@ class Choice extends Field
         return $element;
     }
 
-    public function getCheckables($choiceType)
+    public function getCheckables(string $choiceType)
     {
         if (!(is_array($this->value) || $this->value instanceof \ArrayAccess)) {
             $this->value = explode(',', $this->value);
@@ -338,6 +344,7 @@ class Choice extends Field
      * @param mixed   $selected     Facultative selected entry
      * @param boolean $valuesAsKeys Whether the array's values should be used as
      *                              the option's values instead of the array's keys
+     * @param array-key|null $key
      */
     public function addChoice($value, $key = null)
     {

@@ -175,7 +175,7 @@ class FormerServiceProvider extends ServiceProvider
      * @param  $app
      * @return array
      */
-    protected function getConfigurationFiles($app)
+    protected function getConfigurationFiles(Container $app)
     {
         $files = array();
 

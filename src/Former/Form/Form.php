@@ -408,7 +408,7 @@ class Form extends FormerObject
      *
      * @return $this
      */
-    protected function setRouteOrAction($name, $params, $type)
+    protected function setRouteOrAction(string $name, array $params, string $type)
     {
         // Set the form action
         $this->action = $this->url->$type($name, $params);

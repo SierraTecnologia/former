@@ -89,8 +89,10 @@ class Input extends Field
      * @param array  $datalist An array to use a source
      * @param string $value    The field to use as value
      * @param string $key      The field to use as key
+     *
+     * @return self
      */
-    public function useDatalist($datalist, $value = null, $key = null)
+    public function useDatalist($datalist, $value = null, $key = null): self
     {
         $datalist = Helpers::queryToArray($datalist, $value, $key);
 
@@ -111,7 +113,7 @@ class Input extends Field
      *
      * @return self
      */
-    public function range($min, $max)
+    public function range($min, $max): self
     {
         $this->min($min);
         $this->max($max);
@@ -125,8 +127,10 @@ class Input extends Field
 
     /**
      * Render a text element as a search element
+     *
+     * @return self
      */
-    private function asSearch()
+    private function asSearch(): self
     {
         $this->type = 'text';
         $this->addClass('search-query');
@@ -142,7 +146,7 @@ class Input extends Field
      *
      * @return string A <datalist> tag
      */
-    private function createDatalist($id, $values)
+    private function createDatalist($id, $values): string
     {
         $datalist = '<datalist id="'.$id.'">';
         foreach ($values as $key => $value) {

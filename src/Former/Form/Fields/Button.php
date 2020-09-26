@@ -77,7 +77,7 @@ class Button extends Field
     /**
      * Check if the field is a button
      *
-     * @return boolean
+     * @return true
      */
     public function isButton()
     {
@@ -92,7 +92,7 @@ class Button extends Field
      *
      * @return self
      */
-    public function icon($icon, $attributes = array())
+    public function icon($icon, $attributes = array()): self
     {
         $icon        = $this->app['former.framework']->createIcon($icon, $attributes);
         $this->value = $icon.' '.$this->value;
@@ -104,6 +104,8 @@ class Button extends Field
      * Hijack Former's Object model value method
      *
      * @param string $value The new button text
+     *
+     * @return self
      */
     public function value($value)
     {

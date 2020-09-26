@@ -15,12 +15,7 @@ use Symfony\Component\Finder\Finder;
  */
 class FormerServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
+
 
     /**
      * Register Former's package with Laravel
@@ -36,6 +31,8 @@ class FormerServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      *
      * @return string[]
+     *
+     * @psalm-return array{0: string, 1: string}
      */
     public function provides()
     {
@@ -172,10 +169,13 @@ class FormerServiceProvider extends ServiceProvider
     /**
      * Get all of the configuration files for the application.
      *
-     * @param  $app
-     * @return array
+     * @param $app
+     *
+     * @return (false|mixed|string)[]
+     *
+     * @psalm-return array<string, false|mixed|string>
      */
-    protected function getConfigurationFiles(Container $app)
+    protected function getConfigurationFiles(Container $app): array
     {
         $files = array();
 
@@ -201,7 +201,7 @@ class FormerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($configPath, 'former');
         $this->publishes([$configPath => $app['path.config'] . '/former.php']);
         
-        $framework = $app['config']->get('former.framework');
+        $app['config']->get('former.framework');
         
         $app->bind(
             'former.framework', function ($app) {

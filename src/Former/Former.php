@@ -108,75 +108,9 @@ class Former
     //////////////////////////// INTERFACE /////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
-    /**
-     * Acts as a router that redirects methods to all of Former classes
-     *
-     * @param string $method     The method called
-     * @param array  $parameters An array of parameters
-     *
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        // Dispatch to Form\Elements
-        // Explicitly check false since closeGroup() may return an empty string
-        if (($element = $this->dispatch->toElements($method, $parameters)) !== false) {
-            return $element;
-        }
-
-        // Dispatch to Form\Form
-        if ($form = $this->dispatch->toForm($method, $parameters)) {
-            $this->app->instance('former.form', $form);
-
-            return $this->app['former.form'];
-        }
-
-        // Dispatch to Form\Group
-        if ($group = $this->dispatch->toGroup($method, $parameters)) {
-            return $group;
-        }
-
-        // Dispatch to Form\Actions
-        if ($actions = $this->dispatch->toActions($method, $parameters)) {
-            return $actions;
-        }
-
-        // Dispatch to macros
-        if ($macro = $this->dispatch->toMacros($method, $parameters)) {
-            return $macro;
-        }
-
-        // Checking for any supplementary classes
-        $modifiers = explode('_', $method);
-        $method  = array_pop($modifiers);
-
-        // Dispatch to the different Form\Fields
-        $field     = $this->dispatch->toFields($method, $parameters);
-        $field->setModifiers($modifiers);
-        $field->addClass('');
-
-        // Else bind field
-        $this->app->instance('former.field', $field);
-
-        return $this->app['former.field'];
-    }
-
     ////////////////////////////////////////////////////////////////////
     //////////////////////////////// MACROS ////////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Register a macro with Former
-     *
-     * @param string   $name  The name of the macro
-     * @param Callable $macro The macro itself
-     *
-     * @return mixed
-     */
-    public function macro($name, $macro)
-    {
-        $this->macros[$name] = $macro;
-    }
 
     /**
      * Check if a macro exists
@@ -205,27 +139,6 @@ class Former
     ////////////////////////////////////////////////////////////////////
     ///////////////////////////// POPULATOR ////////////////////////////
     ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Add values to populate the array
-     *
-     * @param mixed $values Can be an Eloquent object or an array
-     */
-    public function populate($values)
-    {
-        $this->app['former.populator']->replace($values);
-    }
-
-    /**
-     * Set the value of a particular field
-     *
-     * @param string $field The field's name
-     * @param mixed  $value Its new value
-     */
-    public function populateField($field, $value)
-    {
-        $this->app['former.populator']->put($field, $value);
-    }
 
     /**
      * Get the value of a field

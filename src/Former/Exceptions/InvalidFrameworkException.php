@@ -6,7 +6,7 @@ class InvalidFrameworkException extends \RuntimeException
     /**
      * reference to framework class
      *
-     * @var
+     * @var string
      */
     private $framework;
 
@@ -23,13 +23,5 @@ class InvalidFrameworkException extends \RuntimeException
 
         return $this;
     }
-    /**
-     * Gets the errors object.
-     *
-     * @return string
-     */
-    public function getFramework()
-    {
-        return $this->framework;
-    }
+
 }

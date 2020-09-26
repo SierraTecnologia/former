@@ -64,31 +64,49 @@ class Nude extends Framework implements FrameworkInterface
         return $field;
     }
 
+    /**
+     * @return null
+     */
     public function getGroupClasses()
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getLabelClasses()
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getUneditableClasses()
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getPlainTextClasses()
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getFormClasses($type)
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getActionClasses()
     {
         return null;
@@ -100,6 +118,8 @@ class Nude extends Framework implements FrameworkInterface
 
     /**
      * Create an help text
+     *
+     * @return Element
      */
     public function createHelp($text, $attributes = array())
     {
@@ -126,9 +146,9 @@ class Nude extends Framework implements FrameworkInterface
      *
      * @param Field $field
      *
-     * @return Element
+     * @return Input
      */
-    public function createPlainTextField(Field $field)
+    public function createPlainTextField(Field $field): Input
     {
         return $this->createDisabledField($field);
     }
@@ -186,9 +206,9 @@ class Nude extends Framework implements FrameworkInterface
      *
      * @param Actions $actions
      *
-     * @return string A wrapped actions block
+     * @return Actions A wrapped actions block
      */
-    public function wrapActions($actions)
+    public function wrapActions($actions): Actions
     {
         return $actions;
     }

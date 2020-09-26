@@ -182,6 +182,8 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      * Set the fields width from a label width
      *
      * @param array $labelWidths
+     *
+     * @return void
      */
     protected function setFieldWidths($labelWidths)
     {
@@ -270,6 +272,8 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      * Add label classes
      *
      * @return string[] An array of attributes with the label class
+     *
+     * @psalm-return array{0: string, 1?: string}
      */
     public function getLabelClasses()
     {
@@ -307,7 +311,7 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      *
      * @param string $type The type of form to add
      *
-     * @return string|null
+     * @return null|string
      */
     public function getFormClasses($type)
     {
@@ -317,7 +321,7 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
     /**
      * Add actions block class
      *
-     * @return string|null
+     * @return null|string
      */
     public function getActionClasses()
     {
@@ -351,7 +355,7 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      * @param string $text
      * @param array  $attributes
      *
-     * @return string
+     * @return Element
      */
     public function createValidationError($text, $attributes = array())
     {
@@ -366,7 +370,7 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      *
      * @return Element
      */
-    public function createBlockHelp($text, $attributes = array())
+    public function createBlockHelp($text, $attributes = array()): Element
     {
         return Element::create('small', $text, $attributes)->addClass('form-text text-muted');
     }
@@ -463,7 +467,7 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      *
      * @param Actions $actions
      *
-     * @return string A wrapped actions block
+     * @return Actions|Element A wrapped actions block
      */
     public function wrapActions($actions)
     {

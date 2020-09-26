@@ -79,9 +79,11 @@ class File extends Field
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Set which types of files are accepted by the file input        
+     * Set which types of files are accepted by the file input
+     *
+     * @return self
      */
-    public function accept()
+    public function accept(): self
     {
         $mimes = array();
 
@@ -108,8 +110,10 @@ class File extends Field
      *
      * @param integer $size  A maximum size
      * @param string  $units The size's unit
+     *
+     * @return self
      */
-    public function max($size, $units = 'KB')
+    public function max($size, $units = 'KB'): self
     {
         // Bytes or bits ?
         $unit = substr($units, -1);

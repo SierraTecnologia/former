@@ -122,6 +122,8 @@ abstract class Field extends FormerObject implements FieldInterface
      * Redirect calls to the group if necessary
      *
      * @param string $method
+     *
+     * @return self
      */
     public function __call($method, $parameters)
     {
@@ -236,7 +238,7 @@ abstract class Field extends FormerObject implements FieldInterface
     /**
      * Check if the field is a button
      *
-     * @return boolean
+     * @return false
      */
     public function isButton()
     {
@@ -261,8 +263,10 @@ abstract class Field extends FormerObject implements FieldInterface
      * Apply a Live Validation rule by chaining
      *
      * @param string $rule The rule
+     *
+     * @return self
      */
-    public function rule($rule)
+    public function rule($rule): self
     {
         $parameters = func_get_args();
         array_shift($parameters);
@@ -327,9 +331,9 @@ abstract class Field extends FormerObject implements FieldInterface
      * @param string $text       A label
      * @param array  $attributes The label's attributes
      *
-     * @return Field              A field
+     * @return self A field
      */
-    public function label($text, $attributes = array())
+    public function label($text, $attributes = array()): self
     {
         // Create the Label element
         $for   = $this->id ?: $this->name;
@@ -348,8 +352,10 @@ abstract class Field extends FormerObject implements FieldInterface
      * Set the Field value no matter what
      *
      * @param string $value A new value
+     *
+     * @return self
      */
-    public function forceValue($value)
+    public function forceValue($value): self
     {
         $this->value = $value;
 
@@ -360,6 +366,8 @@ abstract class Field extends FormerObject implements FieldInterface
      * Classic setting of attribute, won't overwrite any populate() attempt
      *
      * @param string $value A new value
+     *
+     * @return self
      */
     public function value($value)
     {
@@ -377,8 +385,10 @@ abstract class Field extends FormerObject implements FieldInterface
      * Change the field's name
      *
      * @param string $name The new name
+     *
+     * @return self
      */
-    public function name($name)
+    public function name($name): self
     {
         $this->name = $name;
 
@@ -402,8 +412,10 @@ abstract class Field extends FormerObject implements FieldInterface
      * Change the field's bind destination
      *
      * @param $destination
+     *
+     * @return self
      */
-    public function bind($destination)
+    public function bind($destination): self
     {
         $this->bind = $destination;
         if ($this->type != 'password') {

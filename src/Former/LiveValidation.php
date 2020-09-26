@@ -30,6 +30,8 @@ class LiveValidation
      * Apply live validation rules to a field
      *
      * @param array $rules The rules to apply
+     *
+     * @return false|null
      */
     public function apply($rules)
     {
@@ -58,24 +60,30 @@ class LiveValidation
 
     /**
      * Email field
+     *
+     * @return void
      */
-    public function email()
+    public function email(): void
     {
         $this->field->setType('email');
     }
 
     /**
      * URL field
+     *
+     * @return void
      */
-    public function url()
+    public function url(): void
     {
         $this->field->setType('url');
     }
 
     /**
      * Required field
+     *
+     * @return void
      */
-    public function required()
+    public function required(): void
     {
         $this->field->required();
     }
@@ -85,16 +93,20 @@ class LiveValidation
 
     /**
      * Integer field
+     *
+     * @return void
      */
-    public function integer()
+    public function integer(): void
     {
         $this->field->pattern('\d+');
     }
 
     /**
      * Numeric field
+     *
+     * @return void
      */
-    public function numeric()
+    public function numeric(): void
     {
         if ($this->field->isOfType('number')) {
             $this->field->step('any');
@@ -105,40 +117,50 @@ class LiveValidation
 
     /**
      * Not numeric field
+     *
+     * @return void
      */
-    public function not_numeric()
+    public function not_numeric(): void
     {
         $this->field->pattern('\D+');
     }
 
     /**
      * Only alphanumerical
+     *
+     * @return void
      */
-    public function alpha()
+    public function alpha(): void
     {
         $this->field->pattern('[a-zA-Z]+');
     }
 
     /**
      * Only alphanumerical and numbers
+     *
+     * @return void
      */
-    public function alpha_num()
+    public function alpha_num(): void
     {
         $this->field->pattern('[a-zA-Z0-9]+');
     }
 
     /**
      * Alphanumerical, numbers and dashes
+     *
+     * @return void
      */
-    public function alpha_dash()
+    public function alpha_dash(): void
     {
         $this->field->pattern('[a-zA-Z0-9_\-]+');
     }
 
     /**
      * In []
+     *
+     * @return void
      */
-    public function in($possible)
+    public function in($possible): void
     {
         // Create the corresponding regex
         $possible = (sizeof($possible) == 1) ? $possible[0] : '('.join('|', $possible).')';
@@ -148,16 +170,20 @@ class LiveValidation
 
     /**
      * Not in []
+     *
+     * @return void
      */
-    public function not_in($impossible)
+    public function not_in($impossible): void
     {
         $this->field->pattern('(?:(?!^'.join('$|^', $impossible).'$).)*');
     }
 
     /**
      * Matches a pattern
+     *
+     * @return void
      */
-    public function match($pattern)
+    public function match($pattern): void
     {
         // Remove delimiters from existing regex
         $pattern = substr($pattern[0], 1, -1);
@@ -178,8 +204,10 @@ class LiveValidation
 
     /**
      * Max value
+     *
+     * @return void
      */
-    public function max($max)
+    public function max($max): void
     {
         if ($this->field->isOfType('file')) {
             $this->size($max);
@@ -190,24 +218,30 @@ class LiveValidation
 
     /**
      * Max size
+     *
+     * @return void
      */
-    public function size($size)
+    public function size($size): void
     {
         $this->field->max($size[0]);
     }
 
     /**
      * Min value
+     *
+     * @return void
      */
-    public function min($min)
+    public function min($min): void
     {
         $this->setMin($min[0]);
     }
 
     /**
      * Set boundaries
+     *
+     * @return void
      */
-    public function between($between)
+    public function between($between): void
     {
         list($min, $max) = $between;
 
@@ -218,6 +252,8 @@ class LiveValidation
      * Set accepted mime types
      *
      * @param string[] $mimes
+     *
+     * @return false|null
      */
     public function mimes($mimes)
     {
@@ -231,8 +267,10 @@ class LiveValidation
 
     /**
      * Set accept only images
+     *
+     * @return void
      */
-    public function image()
+    public function image(): void
     {
         $this->mimes(array('jpg', 'png', 'gif', 'bmp'));
     }
@@ -242,8 +280,10 @@ class LiveValidation
 
     /**
      * Before a date
+     *
+     * @return void
      */
-    public function before($date)
+    public function before($date): void
     {
         list($format, $date) = $this->formatDate($date[0]);
 
@@ -252,8 +292,10 @@ class LiveValidation
 
     /**
      * After a date
+     *
+     * @return void
      */
-    public function after($date)
+    public function after($date): void
     {
         list($format, $date) = $this->formatDate($date[0]);
 
@@ -284,9 +326,11 @@ class LiveValidation
      *
      * @param string $date The date
      *
-     * @return string The pattern
+     * @return (false|int|string)[] The pattern
+     *
+     * @psalm-return array{0: string, 1: false|int}
      */
-    private function formatDate($date)
+    private function formatDate($date): array
     {
         $format = 'Y-m-d';
 
@@ -302,8 +346,10 @@ class LiveValidation
      * Set a maximum value to a field
      *
      * @param integer $max
+     *
+     * @return void
      */
-    private function setMax($max)
+    private function setMax($max): void
     {
         $attribute = $this->field->isOfType('number') ? 'max' : 'maxlength';
 
@@ -314,8 +360,10 @@ class LiveValidation
      * Set a minimum value to a field
      *
      * @param integer $min
+     *
+     * @return void
      */
-    private function setMin($min)
+    private function setMin($min): void
     {
         if ($this->field->isOfType('number') == 'min') {
             $this->field->min($min);
@@ -329,8 +377,10 @@ class LiveValidation
      *
      * @param $min
      * @param $max
+     *
+     * @return void
      */
-    public function setBetween($min, $max)
+    public function setBetween($min, $max): void
     {
         if ($this->field->isOfType('number') == 'min') {
             // min, max values for generation of the pattern

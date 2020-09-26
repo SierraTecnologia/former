@@ -70,6 +70,11 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
     /////////////////////////// FILTER ARRAYS //////////////////////////
     ////////////////////////////////////////////////////////////////////
 
+    /**
+     * @return (mixed|string)[]
+     *
+     * @psalm-return array<array-key, mixed|string>
+     */
     public function filterButtonClasses($classes)
     {
         // Filter classes
@@ -79,6 +84,9 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
         return $classes;
     }
 
+    /**
+     * @return null
+     */
     public function filterFieldClasses($classes)
     {
         return null;
@@ -88,6 +96,9 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
     ///////////////////// EXPOSE FRAMEWORK SPECIFICS ///////////////////
     ////////////////////////////////////////////////////////////////////
 
+    /**
+     * @return void
+     */
     protected function setFieldWidths($labelWidths)
     {
         $labelWidthClass = $fieldWidthClass = $fieldOffsetClass = '';
@@ -122,6 +133,9 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
         return $this->addClassesToField($field, $classes);
     }
 
+    /**
+     * @return null|string
+     */
     public function getGroupClasses()
     {
         if ($this->app['former.form']->isOfType('horizontal')) {
@@ -145,21 +159,33 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
         }
     }
 
+    /**
+     * @return null
+     */
     public function getUneditableClasses()
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getPlainTextClasses()
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getFormClasses($type)
     {
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function getActionClasses()
     {
         return null;
@@ -169,6 +195,9 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
     //////////////////////////// RENDER BLOCKS /////////////////////////
     ////////////////////////////////////////////////////////////////////
 
+    /**
+     * @return Element
+     */
     public function createHelp($text, $attributes = null)
     {
         if (is_null($attributes) or empty($attributes)) {
@@ -198,9 +227,9 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
      *
      * @param Field $field
      *
-     * @return Element
+     * @return Input
      */
-    public function createPlainTextField(Field $field)
+    public function createPlainTextField(Field $field): Input
     {
         return $this->createDisabledField($field);
     }
@@ -284,9 +313,9 @@ class ZurbFoundation4 extends Framework implements FrameworkInterface
      *
      * @param Actions $actions
      *
-     * @return string A wrapped actions block
+     * @return Actions A wrapped actions block
      */
-    public function wrapActions($actions)
+    public function wrapActions($actions): Actions
     {
         return $actions;
     }

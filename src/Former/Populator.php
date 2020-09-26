@@ -122,9 +122,11 @@ class Populator extends Collection
      *
      * @param string $field The field's name
      *
-     * @return array A tree of field
+     * @return string[] A tree of field
+     *
+     * @psalm-return array<int, string>
      */
-    protected function parseFieldAsArray($field)
+    protected function parseFieldAsArray($field): array
     {
         if (Str::contains($field, '[]')) {
             return (array) $field;

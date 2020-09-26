@@ -193,6 +193,9 @@ class TwitterBootstrap extends Framework implements FrameworkInterface
         return 'uneditable-input';
     }
 
+    /**
+     * @return null
+     */
     public function getPlainTextClasses()
     {
         return null;
@@ -203,7 +206,7 @@ class TwitterBootstrap extends Framework implements FrameworkInterface
      *
      * @param string $type The type of form to add
      *
-     * @return string|null
+     * @return null|string
      */
     public function getFormClasses($type)
     {
@@ -245,7 +248,7 @@ class TwitterBootstrap extends Framework implements FrameworkInterface
      *
      * @return Element
      */
-    public function createBlockHelp($text, $attributes = array())
+    public function createBlockHelp($text, $attributes = array()): Element
     {
         return Element::create('p', $text, $attributes)->addClass('help-block');
     }
@@ -280,7 +283,7 @@ class TwitterBootstrap extends Framework implements FrameworkInterface
      *
      * @param array $attributes Its general attributes
      *
-     * @return string
+     * @return Element|false
      */
     public function createIcon($iconType, $attributes = array(), $iconSettings = array())
     {
@@ -380,9 +383,9 @@ class TwitterBootstrap extends Framework implements FrameworkInterface
      *
      * @param Actions $actions
      *
-     * @return string A wrapped actions block
+     * @return Actions A wrapped actions block
      */
-    public function wrapActions($actions)
+    public function wrapActions($actions): Actions
     {
         return $actions;
     }

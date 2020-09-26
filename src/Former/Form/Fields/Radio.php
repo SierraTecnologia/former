@@ -21,8 +21,10 @@ class Radio extends Checkable
 
     /**
      * Create a serie of radios
+     *
+     * @return self
      */
-    public function radios()
+    public function radios(): self
     {
         $this->items(func_get_args());
 

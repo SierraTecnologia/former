@@ -147,7 +147,7 @@ class Select extends Field
     /**
      * Get the Select's placeholder
      *
-     * @return Element
+     * @return Element|false
      */
     protected function getPlaceholder()
     {
@@ -174,8 +174,10 @@ class Select extends Field
      * @param mixed   $selected     Facultative selected entry
      * @param boolean $valuesAsKeys Whether the array's values should be used as
      *                              the option's values instead of the array's keys
+     *
+     * @return self
      */
-    public function options($_options, $selected = null, $valuesAsKeys = false)
+    public function options($_options, $selected = null, $valuesAsKeys = false): self
     {
         $options = array();
 
@@ -214,8 +216,10 @@ class Select extends Field
      * @param integer $from
      * @param integer $to
      * @param integer $step
+     *
+     * @return self
      */
-    public function range($from, $to, $step = 1)
+    public function range($from, $to, $step = 1): self
     {
         $range = range($from, $to, $step);
         $this->options($range, null, true);
@@ -229,8 +233,10 @@ class Select extends Field
      * @param array|string $text       It's value or an array of values
      * @param string       $value      It's text
      * @param array        $attributes The option's attributes
+     *
+     * @return self
      */
-    public function addOption($text = null, $value = null, $attributes = array())
+    public function addOption($text = null, $value = null, $attributes = array()): self
     {
         // Get the option's value
         $childrenKey = !is_null($value) ? $value : sizeof($this->children);
@@ -261,8 +267,10 @@ class Select extends Field
      * @param string|function $text       The value to use as text
      * @param string|array    $attributes The data to use as attributes
      * @param string          $selected   The default selected item
+     *
+     * @return self
      */
-    public function fromQuery($results, $text = null, $attributes = null, $selected = null)
+    public function fromQuery($results, $text = null, $attributes = null, $selected = null): self
     {
         $this->options(Helpers::queryToArray($results, $text, $attributes), $selected);
 
@@ -273,8 +281,10 @@ class Select extends Field
      * Select a particular list item
      *
      * @param mixed $selected Selected item
+     *
+     * @return self
      */
-    public function select($selected)
+    public function select($selected): self
     {
         $this->value = $selected;
 
@@ -285,8 +295,10 @@ class Select extends Field
      * Add a placeholder to the current select
      *
      * @param string $placeholder The placeholder text
+     *
+     * @return self
      */
-    public function placeholder($placeholder)
+    public function placeholder($placeholder): self
     {
         $this->placeholder = Helpers::translate($placeholder);
 

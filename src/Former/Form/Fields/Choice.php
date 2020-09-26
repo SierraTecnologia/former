@@ -107,6 +107,7 @@ class Choice extends Field
             $this->setAttribute('id', $this->name);
         }
 
+        $field = null;
         switch ($choiceType) {
         case 'select':
             $field = $this->getSelect();
@@ -121,7 +122,7 @@ class Choice extends Field
         return $content;
     }
 
-    public function getSelect()
+    public function getSelect(): Element
     {
         $field = Element::create('select', null, $this->attributes);
 
@@ -138,7 +139,12 @@ class Choice extends Field
         return $field;
     }
 
-    public function getOptions()
+    /**
+     * @return (Element|mixed)[]
+     *
+     * @psalm-return list<Element|mixed>
+     */
+    public function getOptions(): array
     {
         $children = [];
 
@@ -159,8 +165,10 @@ class Choice extends Field
 
     /**
      * @param array-key $label
+     *
+     * @return Element
      */
-    public function getOptGroup($label, array $options)
+    public function getOptGroup($label, array $options): Element
     {
         $element = Element::create('optgroup')->label($label);
         $children = [];
@@ -175,13 +183,14 @@ class Choice extends Field
 
     /**
      * @param array-key $key
+     *
+     * @return Element
      */
-    public function getOption($key, $value)
+    public function getOption($key, $value): Element
     {
         if (is_array($value) and isset($value['value'])) {
             $attributes = $value;
             $text = $key;
-            $key = null;
         } else {
             $attributes = array('value' => $key);
             $text = $value;
@@ -195,7 +204,7 @@ class Choice extends Field
         return $element;
     }
 
-    public function getCheckables(string $choiceType)
+    public function getCheckables(string $choiceType): Element
     {
         if (!(is_array($this->value) || $this->value instanceof \ArrayAccess)) {
             $this->value = explode(',', $this->value);
@@ -208,7 +217,6 @@ class Choice extends Field
 
         $children = [];
         foreach ($this->choices as $key => $value) {
-            $attributes = [];
 
             if (is_array($value) and isset($value['value'])) {
                 $attributes = $value;
@@ -280,7 +288,7 @@ class Choice extends Field
     /**
      * Get the choice's placeholder
      *
-     * @return Element
+     * @return Element|false
      */
     protected function getPlaceholder()
     {
@@ -299,9 +307,9 @@ class Choice extends Field
     /**
      * Sets the element's type based on options
      *
-     * @return this
+     * @return self
      */
-    protected function setChoiceType()
+    protected function setChoiceType(): self
     {
         if ($this->options['isExpanded'] && !$this->options['isMultiple']) {
             $this->setType('radio');
@@ -346,8 +354,10 @@ class Choice extends Field
      *                                     the option's values instead of the array's
      *                                     keys
      * @param array-key|null $key
+     *
+     * @return self
      */
-    public function addChoice($value, $key = null)
+    public function addChoice($value, $key = null): self
     {
         $this->choices[$key ?? $value] = $value;
 
@@ -361,8 +371,10 @@ class Choice extends Field
      * @param mixed   $selected     Facultative selected entry
      * @param boolean $valuesAsKeys Whether the array's values should be used as
      *                              the option's values instead of the array's keys
+     *
+     * @return self
      */
-    public function choices($_choices, $valuesAsKeys = false)
+    public function choices($_choices, $valuesAsKeys = false): self
     {
         $choices = (array) $_choices;
 
@@ -386,8 +398,10 @@ class Choice extends Field
      * @param integer $from
      * @param integer $to
      * @param integer $step
+     *
+     * @return self
      */
-    public function range($from, $to, $step = 1)
+    public function range($from, $to, $step = 1): self
     {
         $range = range($from, $to, $step);
         $this->choices($range, true);
@@ -402,8 +416,10 @@ class Choice extends Field
      * @param string|function $text       The value to use as text
      * @param string|array    $attributes The data to use as attributes
      * @param string          $selected   The default selected item
+     *
+     * @return self
      */
-    public function fromQuery($results, $text = null, $attributes = null, $selected = null)
+    public function fromQuery($results, $text = null, $attributes = null, $selected = null): self
     {
         $this->choices(Helpers::queryToArray($results, $text, $attributes))->value($selected);
 
@@ -414,8 +430,10 @@ class Choice extends Field
      * Add a placeholder to the current select
      *
      * @param string $placeholder The placeholder text
+     *
+     * @return self
      */
-    public function placeholder($placeholder)
+    public function placeholder($placeholder): self
     {
         $this->placeholder = Helpers::translate($placeholder);
 
@@ -452,8 +470,10 @@ class Choice extends Field
 
     /**
      * Set the choices as inline (for expanded items)
+     *
+     * @return self
      */
-    public function inline($isInline = true)
+    public function inline($isInline = true): self
     {
         $this->inline = $isInline;
 
@@ -462,8 +482,10 @@ class Choice extends Field
 
     /**
      * Set the choices as stacked (for expanded items)
+     *
+     * @return self
      */
-    public function stacked($isStacked = true)
+    public function stacked($isStacked = true): self
     {
         $this->inline = !$isStacked;
 

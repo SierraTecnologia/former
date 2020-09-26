@@ -42,20 +42,6 @@ class MethodDispatcher
     ///////////////////////////// REPOSITORIES /////////////////////////
     ////////////////////////////////////////////////////////////////////
 
-    /**
-     * Add a fields repository
-     *
-     * @param string $repository
-     *
-     * @return $this
-     */
-    public function addRepository($repository)
-    {
-        array_unshift($this->repositories, $repository);
-
-        return $this;
-    }
-
     ////////////////////////////////////////////////////////////////////
     ///////////////////////////// DISPATCHERS //////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -114,7 +100,7 @@ class MethodDispatcher
      * @param string $method     The method called
      * @param array  $parameters Its parameters
      *
-     * @return Form
+     * @return Form\Form|false
      */
     public function toForm($method, $parameters)
     {
@@ -134,7 +120,7 @@ class MethodDispatcher
      * @param string $method     The method called
      * @param array  $parameters Its parameters
      *
-     * @return Group
+     * @return Form\Group|false
      */
     public function toGroup($method, $parameters)
     {
@@ -165,7 +151,7 @@ class MethodDispatcher
      * @param string $method     The method called
      * @param array  $parameters Its parameters
      *
-     * @return Actions
+     * @return Form\Actions|false
      */
     public function toActions($method, $parameters)
     {

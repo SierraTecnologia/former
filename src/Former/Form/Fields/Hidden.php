@@ -33,9 +33,9 @@ class Hidden extends Field
     /**
      * Outputs a hidden field
      *
-     * @return string An <input type="hidden" />
+     * @return null|string An <input type="hidden" />
      */
-    public function render()
+    public function render(): ?string
     {
         return HtmlInput::create('hidden', $this->name, Helpers::encode($this->value), $this->attributes)->render();
     }

@@ -43,21 +43,11 @@ abstract class FormerObject extends Element
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Create an unique ID and return it
-     *
-     * @return string
-     */
-    public function getCreatedId()
-    {
-        $this->setId();
-
-        return $this->attributes['id'];
-    }
-
-    /**
      * Set the matching ID on a field if possible
+     *
+     * @return void
      */
-    protected function setId()
+    protected function setId(): void
     {
         if (!array_key_exists('id', $this->attributes) 
             and in_array($this->name, $this->app['former']->labels)
@@ -106,9 +96,9 @@ abstract class FormerObject extends Element
     /**
      * Render the FormerObject and set its id
      *
-     * @return string
+     * @return null|string
      */
-    public function render()
+    public function render(): ?string
     {
         // Set the proper ID according to the label
         $this->setId();
@@ -158,8 +148,10 @@ abstract class FormerObject extends Element
      * Change a object's type
      *
      * @param string $type
+     *
+     * @return self
      */
-    public function setType($type)
+    public function setType($type): self
     {
         $this->type = $type;
 
@@ -178,24 +170,5 @@ abstract class FormerObject extends Element
         return in_array($this->type, $types);
     }
     
-    /**
-     * Set the modifiers from initial method call
-     *
-     * @return $this
-     */
-    public function getModifiers()
-    {
-        return $this->modifiers;
-    }
 
-    /**
-     * Set the modifiers from initial method call
-     *
-     * @return $this
-     */
-    public function setModifiers($modifiers)
-    {
-        $this->modifiers = $modifiers;
-        return $this;
-    }
 }

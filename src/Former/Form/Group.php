@@ -132,9 +132,9 @@ class Group extends Tag
     /**
      * Opens a group
      *
-     * @return string Opening tag
+     * @return null|string Opening tag
      */
-    public function open()
+    public function open(): ?string
     {
         if ($this->getErrors()) {
             $this->state($this->app['former.framework']->errorState());
@@ -189,8 +189,10 @@ class Group extends Tag
      * Set the state of the group
      *
      * @param string $state A Bootstrap state class
+     *
+     * @return void
      */
-    public function state($state)
+    public function state($state): void
     {
         // Filter state
         $state = $this->app['former.framework']->filterState($state);
@@ -202,8 +204,10 @@ class Group extends Tag
      * Set a class on the Group
      *
      * @param string $class The class to add
+     *
+     * @return void
      */
-    public function addGroupClass($class)
+    public function addGroupClass($class): void
     {
         $this->addClass($class);
     }
@@ -212,8 +216,10 @@ class Group extends Tag
      * Adds a label to the group
      *
      * @param string $label A label
+     *
+     * @return void
      */
-    public function setLabel($label)
+    public function setLabel($label): void
     {
         if (!$label instanceof Element) {
             $label = Helpers::translate($label);
@@ -226,7 +232,7 @@ class Group extends Tag
     /**
      * Get the formatted group label
      *
-     * @return string|null
+     * @return Element|false
      */
     public function getFormattedLabel()
     {
@@ -239,8 +245,10 @@ class Group extends Tag
 
     /**
      * Disables the control group for the current field
+     *
+     * @return void
      */
-    public function raw()
+    public function raw(): void
     {
         $this->raw = true;
     }
@@ -275,6 +283,8 @@ class Group extends Tag
      *
      * @param string $help       The help text
      * @param array  $attributes Facultative attributes
+     *
+     * @return false|null
      */
     public function inlineHelp($help, $attributes = array())
     {
@@ -291,6 +301,8 @@ class Group extends Tag
      *
      * @param string $help       The help text
      * @param array  $attributes Facultative attributes
+     *
+     * @return false|null
      */
     public function blockHelp($help, $attributes = array())
     {
@@ -316,16 +328,20 @@ class Group extends Tag
 
     /**
      * Prepend elements to the field
+     *
+     * @return void
      */
-    public function prepend()
+    public function prepend(): void
     {
         $this->placeAround(func_get_args(), 'prepend');
     }
 
     /**
      * Append elements to the field
+     *
+     * @return void
      */
-    public function append()
+    public function append(): void
     {
         $this->placeAround(func_get_args(), 'append');
     }
@@ -335,8 +351,10 @@ class Group extends Tag
      *
      * @param string $icon       The icon to prepend
      * @param array  $attributes Its attributes
+     *
+     * @return void
      */
-    public function prependIcon($icon, $attributes = array(), $iconSettings = array())
+    public function prependIcon($icon, $attributes = array(), $iconSettings = array()): void
     {
         $icon = $this->app['former.framework']->createIcon($icon, $attributes, $iconSettings);
 
@@ -348,8 +366,10 @@ class Group extends Tag
      *
      * @param string $icon       The icon to prepend
      * @param array  $attributes Its attributes
+     *
+     * @return void
      */
-    public function appendIcon($icon, $attributes = array(), $iconSettings = array())
+    public function appendIcon($icon, $attributes = array(), $iconSettings = array()): void
     {
         $icon = $this->app['former.framework']->createIcon($icon, $attributes, $iconSettings);
 
@@ -464,8 +484,10 @@ class Group extends Tag
      *
      * @param array  $items An array of items to place
      * @param string $place Where they should end up (prepend|append)
+     *
+     * @return void
      */
-    protected function placeAround($items, $place)
+    protected function placeAround($items, $place): void
     {
         // Iterate over the items and place them where they should
         foreach ((array) $items as $item) {

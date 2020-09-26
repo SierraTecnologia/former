@@ -21,8 +21,10 @@ class Checkbox extends Checkable
 
     /**
      * Create a serie of checkboxes
+     *
+     * @return self
      */
-    public function checkboxes()
+    public function checkboxes(): self
     {
         if ($this->isGrouped()) {
             // Remove any possible items added by the Populator.

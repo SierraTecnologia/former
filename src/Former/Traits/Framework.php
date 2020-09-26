@@ -131,9 +131,9 @@ abstract class Framework implements FrameworkInterface
      *
      * @param string $state
      *
-     * @return string
+     * @return null|string
      */
-    public function filterState($state)
+    public function filterState($state): ?string
     {
         // Filter out wrong states
         return in_array($state, $this->states) ? $state : null;
@@ -163,8 +163,10 @@ abstract class Framework implements FrameworkInterface
 
     /**
      * Set framework defaults from its config file
+     *
+     * @return void
      */
-    protected function setFrameworkDefaults()
+    protected function setFrameworkDefaults(): void
     {
         $this->setFieldWidths($this->getFrameworkOption('labelWidths'));
         $this->setIconDefaults();
@@ -172,6 +174,8 @@ abstract class Framework implements FrameworkInterface
 
     /**
      * @param string $widths
+     *
+     * @return void
      */
     protected function setFieldWidths($widths)
     {
@@ -179,8 +183,10 @@ abstract class Framework implements FrameworkInterface
 
     /**
      * Override framework defaults for icons with config values where set
+     *
+     * @return void
      */
-    protected function setIconDefaults()
+    protected function setIconDefaults(): void
     {
         $this->iconTag    = $this->getFrameworkOption('icon.tag');
         $this->iconSet    = $this->getFrameworkOption('icon.set');
@@ -192,7 +198,7 @@ abstract class Framework implements FrameworkInterface
      *
      * @param array $attributes Its general attributes
      *
-     * @return string
+     * @return Element|false
      */
     public function createIcon($iconType, $attributes = array(), $iconSettings = array())
     {
@@ -237,9 +243,11 @@ abstract class Framework implements FrameworkInterface
      * @param array  $classes The classes to prepend
      * @param string $with    The string to prepend them with
      *
-     * @return array A prepended array
+     * @return string[] A prepended array
+     *
+     * @psalm-return array<array-key, string>
      */
-    protected function prependWith($classes, $with)
+    protected function prependWith($classes, $with): array
     {
         return array_map(
             function ($class) use ($with) {
@@ -254,7 +262,7 @@ abstract class Framework implements FrameworkInterface
      * @param Field   $field
      * @param Element $label The field label if non provided
      *
-     * @return string A label
+     * @return Element|false|string A label
      */
     public function createLabelOf(Field $field, Element $label = null)
     {

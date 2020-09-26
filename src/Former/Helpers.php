@@ -20,8 +20,10 @@ class Helpers
      * Bind a Container to the Helpers class
      *
      * @param Container $app
+     *
+     * @return void
      */
-    public static function setApp(Container $app)
+    public static function setApp(Container $app): void
     {
         static::$app = $app;
     }
@@ -152,6 +154,7 @@ class Helpers
         //-------------------------------------------------
 
         // Populates the new options
+        $array = null;
         foreach ($query as $model) {
             // If it's an array, convert to object
             if (is_array($model)) {

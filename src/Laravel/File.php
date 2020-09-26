@@ -7,7 +7,12 @@ namespace Laravel;
 
 class File
 {
-    private static $mimes = array(
+    /**
+     * @var (string|string[])[]
+     *
+     * @psalm-var array<string, array{0: string, 1: string, 2?: string, 3?: string}|string>
+     */
+    private static array $mimes = array(
     'ai'    => 'application/postscript',
     'aif'   => 'audio/x-aiff',
     'aifc'  => 'audio/x-aiff',

@@ -171,8 +171,10 @@ abstract class Checkable extends Field
 
     /**
      * Set the checkables as inline
+     *
+     * @return self
      */
-    public function inline($isInline = true)
+    public function inline($isInline = true): self
     {
         $this->inline = $isInline;
 
@@ -181,8 +183,10 @@ abstract class Checkable extends Field
 
     /**
      * Set the checkables as stacked
+     *
+     * @return self
      */
-    public function stacked($isStacked = true)
+    public function stacked($isStacked = true): self
     {
         $this->inline = !$isStacked;
 
@@ -191,8 +195,10 @@ abstract class Checkable extends Field
 
     /**
      * Set the checkables as grouped
+     *
+     * @return self
      */
-    public function grouped($isGrouped = true)
+    public function grouped($isGrouped = true): self
     {
         $this->grouped = $isGrouped;
 
@@ -267,8 +273,10 @@ abstract class Checkable extends Field
      * Creates a series of checkable items
      *
      * @param array $_items Items to create
+     *
+     * @return void
      */
-    protected function items($_items)
+    protected function items($_items): void
     {
         // If passing an array
         if (sizeof($_items) == 1 
@@ -286,6 +294,7 @@ abstract class Checkable extends Field
 
         // Iterate through items, assign a name and a label to each
         $count = 0;
+        $attributes = null;
         foreach ($_items as $label => $name) {
 
             // Define a fallback name in case none is found
@@ -333,9 +342,9 @@ abstract class Checkable extends Field
      * @param string|array $item          A checkable item
      * @param integer      $fallbackValue A fallback value if none is set
      *
-     * @return string
+     * @return null|string
      */
-    protected function createCheckable($item, $fallbackValue = 1)
+    protected function createCheckable($item, $fallbackValue = 1): ?string
     {
         // Extract informations
         extract($item);
@@ -420,7 +429,7 @@ abstract class Checkable extends Field
      *
      * @param string $name The field's name
      *
-     * @return string A field number to use
+     * @return false|int A field number to use
      */
     protected function unique($name)
     {
@@ -448,7 +457,7 @@ abstract class Checkable extends Field
      * @param string $attribute The key to set
      * @param string $value     Its value
      *
-     * @return $this|bool
+     * @return false|self
      */
     protected function setOnFocused($attribute, $value)
     {

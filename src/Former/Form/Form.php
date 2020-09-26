@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
  */
 class Form extends FormerObject
 {
+    /**
+     * @var null|object
+     */
     protected $model;
     /**
      * The IoC Container
@@ -105,7 +108,7 @@ class Form extends FormerObject
         );
     }
     
-    private function openFormParameters(array $parameters)
+    private function openFormParameters(array $parameters): void
     {
         if (is_string($parameters[0])) {
             $action     = Arr::get($parameters, 0);
@@ -166,9 +169,9 @@ class Form extends FormerObject
      * @param string $type       The form type asked
      * @param array  $parameters Parameters passed
      *
-     * @return Form             A form opening tag
+     * @return self A form opening tag
      */
-    public function openForm(string $type, array $parameters)
+    public function openForm(string $type, array $parameters): self
     {
 
         // Fetch errors if asked for
@@ -260,43 +263,16 @@ class Form extends FormerObject
     }
 
     /**
-     * Whether the form should be secure
-     *
-     * @param boolean $secure Secure or not
-     *
-     * @return $this
-     */
-    public function secure($secure = true)
-    {
-        $this->secure = $secure;
-
-        return $this;
-    }
-
-    /**
      * Change the form's action and method to a route
      *
      * @param string $name   The name of the route to use
      * @param array  $params Any route parameters
      *
-     * @return Form
+     * @return self
      */
-    public function route($name, $params = array())
+    public function route($name, $params = array()): self
     {
         return $this->setRouteOrAction($name, $params, 'route');
-    }
-
-    /**
-     * Change the form's action to a controller method
-     *
-     * @param string $name   The controller and method
-     * @param array  $params Any method parameters
-     *
-     * @return Form
-     */
-    public function controller($name, $params = array())
-    {
-        return $this->setRouteOrAction($name, $params, 'action');
     }
 
     /**
@@ -328,30 +304,6 @@ class Form extends FormerObject
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Alias for $this->app['former']->withRules
-     */
-    public function rules()
-    {
-        call_user_func_array(array($this->app['former'], 'withRules'), func_get_args());
-
-        return $this;
-    }
-
-    /**
-     * Populate a form with specific values
-     *
-     * @param array|object $values
-     *
-     * @return $this
-     */
-    public function populate($values)
-    {
-        $this->populator->replace($values);
-
-        return $this;
-    }
-
-    /**
      * Get the Populator binded to the Form
      *
      * @return Populator
@@ -379,6 +331,7 @@ class Form extends FormerObject
         }
 
         // Get string by name
+        $route = null;
         if (!Str::contains($name, '@')) {
             $routes = $this->app['router']->getRoutes();
             $route  = method_exists($routes, 'getByName') ? $routes->getByName($name) : $routes->get($name);

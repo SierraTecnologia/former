@@ -67,7 +67,7 @@ class Actions extends FormerObject
      * @param string $method     The method
      * @param array  $parameters Its parameters
      *
-     * @return Actions
+     * @return self
      */
     public function __call($method, $parameters)
     {
@@ -98,9 +98,9 @@ class Actions extends FormerObject
      * @param string $link       A link to point to
      * @param array  $attributes Its attributes
      *
-     * @return Actions
+     * @return self
      */
-    private function createButtonOfType($type, $name, $link, $attributes)
+    private function createButtonOfType($type, $name, $link, $attributes): self
     {
         $this->value[] = $this->app['former']->$type($name, $link, $attributes)->__toString();
 

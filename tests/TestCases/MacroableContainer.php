@@ -7,5 +7,5 @@ use Illuminate\Muleta\Traits\Macroable;
 
 class MacroableContainer extends Container
 {
-	use Macroable;
+    use Macroable;
 }

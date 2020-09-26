@@ -6,62 +6,62 @@ use Former\TestCases\FormerTests;
 class NudeFrameworkTest extends FormerTests
 {
 
-	protected function setUp(): void
-	{
-		parent::setUp();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->former->framework('Nude');
-	}
+        $this->former->framework('Nude');
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// TESTS /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// TESTS /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	public function testCanDisplayErrorMessages()
-	{
-		// Create field
-		$this->former->withErrors($this->validator);
-		$required = $this->former->text('required')->wrapAndRender();
+    public function testCanDisplayErrorMessages()
+    {
+        // Create field
+        $this->former->withErrors($this->validator);
+        $required = $this->former->text('required')->wrapAndRender();
 
-		// Matcher
-		$matcher =
-			'<label for="required">Required</label>'.
-			'<input id="required" type="text" name="required">'.
-			'<span class="help">The required field is required.</span>';
+        // Matcher
+        $matcher =
+        '<label for="required">Required</label>'.
+        '<input id="required" type="text" name="required">'.
+        '<span class="help">The required field is required.</span>';
 
-		$this->assertEquals($matcher, $required);
-	}
+        $this->assertEquals($matcher, $required);
+    }
 
-	public function testCanDisplayNestedErrorMessages()
-	{
-		// Use special one-time-use validator
-		$this->former->withErrors($this->mockValidator("foo.bar", "Foo", null));
+    public function testCanDisplayNestedErrorMessages()
+    {
+        // Use special one-time-use validator
+        $this->former->withErrors($this->mockValidator("foo.bar", "Foo", null));
 
-		// Create field
-		$required = $this->former->text("foo[bar]")->id('foo')->label('Foo')->wrapAndRender();
+        // Create field
+        $required = $this->former->text("foo[bar]")->id('foo')->label('Foo')->wrapAndRender();
 
-		// Matcher
-		$matcher =
-			'<label for="foo">Foo</label>'.
-			'<input id="foo" type="text" name="foo[bar]">'.
-			'<span class="help">The Foo field is required.</span>';
+        // Matcher
+        $matcher =
+        '<label for="foo">Foo</label>'.
+        '<input id="foo" type="text" name="foo[bar]">'.
+        '<span class="help">The Foo field is required.</span>';
 
-		$this->assertEquals($matcher, $required);
-	}
+        $this->assertEquals($matcher, $required);
+    }
 
-	public function testGroupOpenHasNoElement()
-	{
-		$group   = $this->former->group('foo')->__toString();
-		$matcher = '<label for="Foo">Foo</label>';
+    public function testGroupOpenHasNoElement()
+    {
+        $group   = $this->former->group('foo')->__toString();
+        $matcher = '<label for="Foo">Foo</label>';
 
-		$this->assertEquals($matcher, $group);
-	}
+        $this->assertEquals($matcher, $group);
+    }
 
-	public function testGroupCloseHasNoElement()
-	{
-		$this->former->group('foo');
-		$text = $this->former->closeGroup();
+    public function testGroupCloseHasNoElement()
+    {
+        $this->former->group('foo');
+        $text = $this->former->closeGroup();
 
-		$this->assertEmpty($text);
-	}
+        $this->assertEmpty($text);
+    }
 }

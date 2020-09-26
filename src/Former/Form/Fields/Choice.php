@@ -340,10 +340,11 @@ class Choice extends Field
     /**
      * Set the choices
      *
-     * @param array   $_choices     The choices as an array
-     * @param mixed   $selected     Facultative selected entry
-     * @param boolean $valuesAsKeys Whether the array's values should be used as
-     *                              the option's values instead of the array's keys
+     * @param array          $_choices     The choices as an array
+     * @param mixed          $selected     Facultative selected entry
+     * @param boolean        $valuesAsKeys Whether the array's values should be used as
+     *                                     the option's values instead of the array's
+     *                                     keys
      * @param array-key|null $key
      */
     public function addChoice($value, $key = null)

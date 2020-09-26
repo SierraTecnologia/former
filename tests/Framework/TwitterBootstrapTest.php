@@ -6,8 +6,7 @@ use Illuminate\Support\Str;
 
 class TwitterBootstrapTest extends FormerTests
 {
-
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 

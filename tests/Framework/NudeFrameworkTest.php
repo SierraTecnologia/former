@@ -5,8 +5,7 @@ use Former\TestCases\FormerTests;
 
 class NudeFrameworkTest extends FormerTests
 {
-
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -25,9 +24,9 @@ class NudeFrameworkTest extends FormerTests
 
         // Matcher
         $matcher =
-        '<label for="required">Required</label>'.
-        '<input id="required" type="text" name="required">'.
-        '<span class="help">The required field is required.</span>';
+            '<label for="required">Required</label>'.
+            '<input id="required" type="text" name="required">'.
+            '<span class="help">The required field is required.</span>';
 
         $this->assertEquals($matcher, $required);
     }
@@ -42,9 +41,9 @@ class NudeFrameworkTest extends FormerTests
 
         // Matcher
         $matcher =
-        '<label for="foo">Foo</label>'.
-        '<input id="foo" type="text" name="foo[bar]">'.
-        '<span class="help">The Foo field is required.</span>';
+            '<label for="foo">Foo</label>'.
+            '<input id="foo" type="text" name="foo[bar]">'.
+            '<span class="help">The Foo field is required.</span>';
 
         $this->assertEquals($matcher, $required);
     }

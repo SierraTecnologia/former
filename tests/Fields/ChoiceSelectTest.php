@@ -134,6 +134,19 @@ class ChoiceSelectTest extends FormerTests
         $this->assertEquals($matcher, $select);
     }
 
+    public function testSelectLang()
+    {
+        $select  = $this->former->choice('foo')->choices($this->translator->get('pagination'))->value('previous')->__toString();
+        $matcher = $this->controlGroup(
+            '<select id="foo" name="foo">'.
+            '<option value="previous" selected="selected">Previous</option>'.
+            '<option value="next">Next</option>'.
+            '</select>'
+        );
+
+        $this->assertEquals($matcher, $select);
+    }
+
     public function testSelectEloquent()
     {
         for ($i = 0; $i < 2; $i++) {
@@ -217,8 +230,8 @@ class ChoiceSelectTest extends FormerTests
             return $model->foo;
         };
         $optionAttributes = [
-        'value' => 'age',
-        'data-test' => $optionDataFunction,
+            'value' => 'age',
+            'data-test' => $optionDataFunction,
         ];
         for ($i = 0; $i < 2; $i++) {
             $eloquent[] = (object) array('age' => $i, 'foo' => 'bar');
@@ -322,12 +335,10 @@ class ChoiceSelectTest extends FormerTests
 
     public function testCanPopulateWithCollections()
     {
-        $collection = new Collection(
-            array(
+        $collection = new Collection(array(
             new DummyEloquent(array('id' => 1, 'name' => 'foo')),
             new DummyEloquent(array('id' => 2, 'name' => 'bar')),
-            )
-        );
+        ));
 
         $select  = $this->former->choice('foo')->fromQuery($collection);
         $matcher = $this->controlGroup(
@@ -346,26 +357,24 @@ class ChoiceSelectTest extends FormerTests
         $html[] = $this->former->choice('frmVehicleMake')->label('Make')->choices($this->choices)->wrapAndRender();
 
         $results = implode(' ', $html);
-        $this->assertContains('control-group', $results);
+        $this->assertStringContainsString('control-group', $results);
     }
 
     public function testCanPopulateMultipleSelects()
     {
-        $collection = new Collection(
-            array(
+        $collection = new Collection(array(
             new DummyEloquent(array('id' => 1, 'name' => 'foo')),
             new DummyEloquent(array('id' => 2, 'name' => 'bar')),
             new DummyEloquent(array('id' => 3, 'name' => 'bar')),
-            )
-        );
+        ));
 
         $select  = $this->former->choice('foo')->fromQuery($collection)->value(array(1, 2))->render();
         $matcher =
-        '<select id="foo" name="foo">'.
-        '<option value="1" selected="selected">foo</option>'.
-        '<option value="2" selected="selected">bar</option>'.
-        '<option value="3">bar</option>'.
-        '</select>';
+            '<select id="foo" name="foo">'.
+            '<option value="1" selected="selected">foo</option>'.
+            '<option value="2" selected="selected">bar</option>'.
+            '<option value="3">bar</option>'.
+            '</select>';
 
         $this->assertEquals($matcher, $select);
     }
@@ -374,13 +383,11 @@ class ChoiceSelectTest extends FormerTests
     {
         $model = new DummyEloquent;
 
-        $collection = new Collection(
-            array(
+        $collection = new Collection(array(
             new DummyEloquent(array('id' => 1, 'name' => 'foo')),
             new DummyEloquent(array('id' => 2, 'name' => 'bar')),
             new DummyEloquent(array('id' => 3, 'name' => 'bar')),
-            )
-        );
+        ));
 
         /**
          * $model->roles returns a Collection with id's of 1 and 3, so these ID's should end up selected
@@ -403,9 +410,9 @@ class ChoiceSelectTest extends FormerTests
     public function testCanRepopulateMultipleSelectsFromPost()
     {
         $options = array(
-        'foo' => 'foo_name',
-        'bar' => 'bar_name',
-        'baz' => 'baz_name',
+            'foo' => 'foo_name',
+            'bar' => 'bar_name',
+            'baz' => 'baz_name',
         );
 
         $this->request->shouldReceive('input')->with('_token', '', true)->andReturn('foobar');
@@ -413,11 +420,11 @@ class ChoiceSelectTest extends FormerTests
 
         $select  = $this->former->choice('test')->multiple()->choices($options)->render();
         $matcher =
-        '<select id="test" multiple name="test[]">'.
-        '<option value="foo" selected="selected">foo_name</option>'.
-        '<option value="bar" selected="selected">bar_name</option>'.
-        '<option value="baz">baz_name</option>'.
-        '</select>';
+            '<select id="test" multiple name="test[]">'.
+            '<option value="foo" selected="selected">foo_name</option>'.
+            '<option value="bar" selected="selected">bar_name</option>'.
+            '<option value="baz">baz_name</option>'.
+            '</select>';
 
         $this->assertEquals($matcher, $select);
     }
@@ -427,8 +434,8 @@ class ChoiceSelectTest extends FormerTests
         $select = $this->former->choice('foo')->range(1, 10);
 
         $this->assertEquals(range(1, 10), array_keys($select->getChoices()));
-        $this->assertContains('<option value="1">1</option>', $select->render());
-        $this->assertContains('<option value="10">10</option>', $select->render());
+        $this->assertStringContainsString('<option value="1">1</option>', $select->render());
+        $this->assertStringContainsString('<option value="10">10</option>', $select->render());
     }
 
     public function testCanCreateSelectGroups()
@@ -437,14 +444,14 @@ class ChoiceSelectTest extends FormerTests
         $select = $this->former->choice('foo')->choices($values);
 
         $matcher =
-        '<select id="foo" name="foo">'.
-        '<optgroup label="foo">'.
-        '<option value="1">foo</option><option value="2">bar</option>'.
-        '</optgroup>'.
-        '<optgroup label="bar">'.
-        '<option value="3">foo</option><option value="4">bar</option>'.
-        '</optgroup>'.
-        '</select>';
+            '<select id="foo" name="foo">'.
+            '<optgroup label="foo">'.
+            '<option value="1">foo</option><option value="2">bar</option>'.
+            '</optgroup>'.
+            '<optgroup label="bar">'.
+            '<option value="3">foo</option><option value="4">bar</option>'.
+            '</optgroup>'.
+            '</select>';
         $this->assertEquals($matcher, $select->render());
     }
 
@@ -454,26 +461,24 @@ class ChoiceSelectTest extends FormerTests
         $select = $this->former->choice('foo')->choices($values)->value(4);
 
         $matcher =
-        '<select id="foo" name="foo">'.
-        '<optgroup label="foo">'.
-        '<option value="1">foo</option><option value="2">bar</option>'.
-        '</optgroup>'.
-        '<optgroup label="bar">'.
-        '<option value="3">foo</option><option value="4" selected="selected">bar</option>'.
-        '</optgroup>'.
-        '</select>';
+            '<select id="foo" name="foo">'.
+            '<optgroup label="foo">'.
+            '<option value="1">foo</option><option value="2">bar</option>'.
+            '</optgroup>'.
+            '<optgroup label="bar">'.
+            '<option value="3">foo</option><option value="4" selected="selected">bar</option>'.
+            '</optgroup>'.
+            '</select>';
         $this->assertEquals($matcher, $select->render());
     }
 
     public function testCanUseEmptyPlaceholders()
     {
-        $select = $this->former->choice('foo')->choices(
-            array(
+        $select = $this->former->choice('foo')->choices(array(
             '' => '',
             0  => 'foo',
             1  => 'bar',
-            )
-        );
+        ));
 
         $matcher = '<select id="foo" name="foo"><option value=""></option><option value="0">foo</option><option value="1">bar</option></select>';
 
@@ -482,12 +487,10 @@ class ChoiceSelectTest extends FormerTests
 
     public function testCanPassAttributesToOptions()
     {
-        $select = $this->former->choice('foo')->choices(
-            array(
+        $select = $this->former->choice('foo')->choices(array(
             'foo' => array('value' => 'bar', 'class' => 'myclass'),
             'baz' => array('value' => 'qux', 'class' => 'myclass'),
-            )
-        )->value('bar');
+        ))->value('bar');
 
         $matcher = '<select id="foo" name="foo"><option value="bar" class="myclass" selected="selected">foo</option><option value="qux" class="myclass">baz</option></select>';
 
@@ -514,10 +517,10 @@ class ChoiceSelectTest extends FormerTests
 
         $select  = $this->former->choice('foo[]')->choices($options);
         $matcher =
-        '<select id="foo[]" name="foo[]">'.
-        '<option value="foo" selected="selected">foo_name</option>'.
-        '<option value="bar" selected="selected">bar_name</option>'.
-        '</select>';
+            '<select id="foo[]" name="foo[]">'.
+            '<option value="foo" selected="selected">foo_name</option>'.
+            '<option value="bar" selected="selected">bar_name</option>'.
+            '</select>';
 
         $this->assertEquals($matcher, $select->render());
     }
@@ -537,18 +540,18 @@ class ChoiceSelectTest extends FormerTests
     public function testSelectCanPickRightOptionWithOptgroups()
     {
         $items = array(
-        'foo' => array(
-        1 => 'foo',
-        ),
-        'bar' => array(
-        3 => 'bar',
-        4 => 'baz',
-        ),
+            'foo' => array(
+                1 => 'foo',
+            ),
+            'bar' => array(
+                3 => 'bar',
+                4 => 'baz',
+            ),
         );
 
         $select  = $this->former->choice('category_id')->choices($items)->value(1);
         $matcher = '<optgroup label="foo"><option value="1" selected="selected">foo</option></optgroup><optgroup label="bar"><option value="3">bar</option><option value="4">baz</option></optgroup>';
 
-        $this->assertContains($matcher, $select->render());
+        $this->assertStringContainsString($matcher, $select->render());
     }
 }

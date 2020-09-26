@@ -8,15 +8,14 @@ use Illuminate\Support\Arr;
 
 class HtmlValue implements Htmlable
 {
-
     private $value;
 
-    function __construct($value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
 
-    function toHtml()
+    public function toHtml()
     {
         return $this->value;
     }
@@ -118,7 +117,8 @@ class InputTest extends FormerTests
         $static = $this->former->text('foo')->label(new HtmlValue('bar'), $this->testAttributes)->__toString();
         $this->assertEquals(
             '<div class="control-group"><label class="foo control-label" data-foo="bar" for="foo">bar</label>' .
-            '<div class="controls"><input id="foo" type="text" name="foo"></div></div>', $static
+            '<div class="controls"><input id="foo" type="text" name="foo"></div></div>',
+            $static
         );
     }
 
@@ -127,7 +127,8 @@ class InputTest extends FormerTests
         $static = $this->former->text('foo')->label(new HtmlValue('<span>bar</span>'), $this->testAttributes)->__toString();
         $this->assertEquals(
             '<div class="control-group"><label class="foo control-label" data-foo="bar" for="foo"><span>bar</span></label>' .
-            '<div class="controls"><input id="foo" type="text" name="foo"></div></div>', $static
+            '<div class="controls"><input id="foo" type="text" name="foo"></div></div>',
+            $static
         );
     }
 
@@ -155,13 +156,13 @@ class InputTest extends FormerTests
 
         $required = $this->former->text('required')->__toString();
         $matcher  =
-        '<div class="control-group error">'.
-        '<label for="required" class="control-label">Required</label>'.
-        '<div class="controls">'.
-        '<input id="required" type="text" name="required">'.
-        '<span class="help-inline">The required field is required.</span>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group error">'.
+            '<label for="required" class="control-label">Required</label>'.
+            '<div class="controls">'.
+            '<input id="required" type="text" name="required">'.
+            '<span class="help-inline">The required field is required.</span>'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $required);
     }
@@ -172,11 +173,11 @@ class InputTest extends FormerTests
 
         $required = $this->former->text()->__toString();
         $matcher  =
-        '<div class="control-group">'.
-        '<div class="controls">'.
-        '<input type="text">'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group">'.
+            '<div class="controls">'.
+            '<input type="text">'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $required);
     }
@@ -188,12 +189,12 @@ class InputTest extends FormerTests
 
         $required = $this->former->text('required')->__toString();
         $matcher  =
-        '<div class="control-group error">'.
-        '<label for="required" class="control-label">Required</label>'.
-        '<div class="controls">'.
-        '<input id="required" type="text" name="required">'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group error">'.
+            '<label for="required" class="control-label">Required</label>'.
+            '<div class="controls">'.
+            '<input id="required" type="text" name="required">'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $required);
     }
@@ -277,39 +278,37 @@ class InputTest extends FormerTests
     {
         $datalist = $this->former->text('foo')->useDatalist(array('foo' => 'bar', 'kel' => 'tar'))->__toString();
         $matcher  =
-        '<div class="control-group">'.
-        '<label for="foo" class="control-label">Foo</label>'.
-        '<div class="controls">'.
-        '<input list="datalist_foo" id="foo" type="text" name="foo">'.
-        '<datalist id="datalist_foo">'.
-        '<option value="bar">foo</option>'.
-        '<option value="tar">kel</option>'.
-        '</datalist>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group">'.
+            '<label for="foo" class="control-label">Foo</label>'.
+            '<div class="controls">'.
+            '<input list="datalist_foo" id="foo" type="text" name="foo">'.
+            '<datalist id="datalist_foo">'.
+            '<option value="bar">foo</option>'.
+            '<option value="tar">kel</option>'.
+            '</datalist>'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $datalist);
     }
 
     public function testCanCreateDatalistCustomList()
     {
-        $datalist = $this->former->text('foo')->list('bar')->useDatalist(
-            array(
+        $datalist = $this->former->text('foo')->list('bar')->useDatalist(array(
             'foo' => 'bar',
             'kel' => 'tar',
-            )
-        )->__toString();
+        ))->__toString();
         $matcher  =
-        '<div class="control-group">'.
-        '<label for="foo" class="control-label">Foo</label>'.
-        '<div class="controls">'.
-        '<input list="bar" id="foo" type="text" name="foo">'.
-        '<datalist id="bar">'.
-        '<option value="bar">foo</option>'.
-        '<option value="tar">kel</option>'.
-        '</datalist>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group">'.
+            '<label for="foo" class="control-label">Foo</label>'.
+            '<div class="controls">'.
+            '<input list="bar" id="foo" type="text" name="foo">'.
+            '<datalist id="bar">'.
+            '<option value="bar">foo</option>'.
+            '<option value="tar">kel</option>'.
+            '</datalist>'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $datalist);
     }
@@ -318,7 +317,7 @@ class InputTest extends FormerTests
     {
         $range = $this->former->number('foo')->range(1, 5)->__toString();
 
-        $this->assertContains('min="1" max="5"', $range);
+        $this->assertStringContainsString('min="1" max="5"', $range);
     }
 
     public function testLabelCastsToString()

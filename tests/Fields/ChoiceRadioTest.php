@@ -21,8 +21,8 @@ class ChoiceRadioTest extends FormerTests
     /**
      * Matches a Control Group
      *
-     * @param string $input
-     * @param string $label
+     * @param  string $input
+     * @param  string $label
      *
      * @return boolean
      */
@@ -37,8 +37,8 @@ class ChoiceRadioTest extends FormerTests
     /**
      * Matches a Form Group
      *
-     * @param string $input
-     * @param string $label
+     * @param  string $input
+     * @param  string $label
      *
      * @return boolean
      */
@@ -56,7 +56,7 @@ class ChoiceRadioTest extends FormerTests
         $ref = new \ReflectionMethod(__METHOD__);
 
         foreach ($ref->getParameters() as $key => $param) {
-            if(!isset($func_get_args[ $key ]) && $param->isDefaultValueAvailable()) {
+            if (!isset($func_get_args[ $key ]) && $param->isDefaultValueAvailable()) {
                 $func_get_args[ $key ] = $param->getDefaultValue();
             }
         }
@@ -68,12 +68,12 @@ class ChoiceRadioTest extends FormerTests
     /**
      * Matches a radio
      *
-     * @param string  $name
-     * @param string  $label
-     * @param integer $value
-     * @param boolean $inline
-     * @param boolean $checked
-     * @param mixed   $disabled If 'disabled', rendered as `disabled="disabled"`. If true, then rendered as `disabled`.
+     * @param  string  $name
+     * @param  string  $label
+     * @param  integer $value
+     * @param  boolean $inline
+     * @param  boolean $checked
+     * @param  mixed $disabled If 'disabled', rendered as `disabled="disabled"`. If true, then rendered as `disabled`.
      *
      * @return string
      */
@@ -87,16 +87,16 @@ class ChoiceRadioTest extends FormerTests
         $disabled = false
     ) {
         $checkAttr = array(
-        'disabled' => $disabled === 'disabled' ? 'disabled' : null,
-        'id'       => $id,
-        'type'     => 'radio',
-        'name'     => $name,
-        'checked'  => 'checked',
-        'value'    => $value,
+            'disabled' => $disabled === 'disabled' ? 'disabled' : null,
+            'id'       => $id,
+            'type'     => 'radio',
+            'name'     => $name,
+            'checked'  => 'checked',
+            'value'    => $value,
         );
         $labelAttr = array(
-        'for'   => $id,
-        'class' => 'radio',
+            'for'   => $id,
+            'class' => 'radio',
         );
         if ($inline) {
             if ($this->former->framework() === 'TwitterBootstrap3') {
@@ -130,10 +130,10 @@ class ChoiceRadioTest extends FormerTests
     /**
      * Matches a checked radio
      *
-     * @param string  $name
-     * @param string  $label
-     * @param integer $value
-     * @param boolean $inline
+     * @param  string  $name
+     * @param  string  $label
+     * @param  integer $value
+     * @param  boolean $inline
      *
      * @return string
      */
@@ -242,7 +242,6 @@ class ChoiceRadioTest extends FormerTests
 
     public function testCanCreateStackedRadioesTwitterBootstrap3()
     {
-
         $this->former->framework('TwitterBootstrap3');
 
         $radioes1 = $this->former->stacked_choice('foo')->expanded()->choices($this->choices)->__toString();
@@ -359,13 +358,11 @@ class ChoiceRadioTest extends FormerTests
 
     public function testCanPopulateRadioesWithRelations()
     {
-        $collection = new Collection(
-            array(
+        $collection = new Collection(array(
             new DummyEloquent(array('id' => 1, 'name' => 'foo')),
             new DummyEloquent(array('id' => 2, 'name' => 'bar')),
             new DummyEloquent(array('id' => 3, 'name' => 'bar')),
-            )
-        );
+        ));
 
         $this->former->populate($collection);
         $radioes = $this->choiceRadio('roles')->fromQuery($collection)->__toString();
@@ -397,20 +394,20 @@ class ChoiceRadioTest extends FormerTests
         $radio  = $this->choiceRadio()->choices(array('Value 01', 'Value 02'))->__toString();
 
         $matcher =
-        '<div class="control-group error">'.
-        '<label for="foo" class="control-label">Foo</label>'.
-        '<div class="controls">'.
-        '<div id="foo">'.
-        '<label for="foo_0" class="radio">'.
-        '<input id="foo_0" type="radio" name="foo" value="0">Value 01'.
-        '</label>'.
-        '<label for="foo_1" class="radio">'.
-        '<input id="foo_1" type="radio" name="foo" value="1">Value 02'.
-        '</label>'.
-        '</div>'.
-        '<span class="help-inline">bar</span>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group error">'.
+            '<label for="foo" class="control-label">Foo</label>'.
+            '<div class="controls">'.
+            '<div id="foo">'.
+            '<label for="foo_0" class="radio">'.
+            '<input id="foo_0" type="radio" name="foo" value="0">Value 01'.
+            '</label>'.
+            '<label for="foo_1" class="radio">'.
+            '<input id="foo_1" type="radio" name="foo" value="1">Value 02'.
+            '</label>'.
+            '</div>'.
+            '<span class="help-inline">bar</span>'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $radio);
     }
@@ -435,5 +432,7 @@ class ChoiceRadioTest extends FormerTests
         $this->former->group();
         $output = $this->choiceRadio()->choices(array('foo')).'';
         $this->former->closeGroup();
+
+        $this->assertIsString($output);
     }
 }

@@ -14,12 +14,12 @@ class CheckboxTest extends FormerTests
     /**
      * Matches a checkbox
      *
-     * @param string  $name
-     * @param string  $label
-     * @param integer $value
-     * @param boolean $inline
-     * @param boolean $checked
-     * @param mixed   $disabled If 'disabled', rendered as `disabled="disabled"`. If true, then rendered as `disabled`.
+     * @param  string  $name
+     * @param  string  $label
+     * @param  integer $value
+     * @param  boolean $inline
+     * @param  boolean $checked
+     * @param  mixed $disabled If 'disabled', rendered as `disabled="disabled"`. If true, then rendered as `disabled`.
      *
      * @return string
      */
@@ -32,16 +32,16 @@ class CheckboxTest extends FormerTests
         $disabled = false
     ) {
         $checkAttr = array(
-        'disabled' => $disabled === 'disabled' ? 'disabled' : null,
-        'id'       => $name,
-        'type'     => 'checkbox',
-        'name'     => $name,
-        'checked'  => 'checked',
-        'value'    => $value,
+            'disabled' => $disabled === 'disabled' ? 'disabled' : null,
+            'id'       => $name,
+            'type'     => 'checkbox',
+            'name'     => $name,
+            'checked'  => 'checked',
+            'value'    => $value,
         );
         $labelAttr = array(
-        'for'   => $name,
-        'class' => 'checkbox',
+            'for'   => $name,
+            'class' => 'checkbox',
         );
         if ($inline) {
             if ($this->former->framework() === 'TwitterBootstrap3') {
@@ -75,10 +75,10 @@ class CheckboxTest extends FormerTests
     /**
      * Matches a checked checkbox
      *
-     * @param string  $name
-     * @param string  $label
-     * @param integer $value
-     * @param boolean $inline
+     * @param  string  $name
+     * @param  string  $label
+     * @param  integer $value
+     * @param  boolean $inline
      *
      * @return string
      */
@@ -126,8 +126,8 @@ class CheckboxTest extends FormerTests
     public function testCanFocusOnACheckbox()
     {
         $checkboxes = $this->former->checkboxes('foo')
-            ->checkboxes('foo', 'bar')
-            ->on(0)->text('first')->on(1)->text('second')->__toString();
+                                   ->checkboxes('foo', 'bar')
+                                   ->on(0)->text('first')->on(1)->text('second')->__toString();
 
         $matcher = $this->controlGroup($this->matchCheckbox('foo_0', 'First').$this->matchCheckbox('foo_1', 'Second'));
 
@@ -171,7 +171,6 @@ class CheckboxTest extends FormerTests
 
     public function testCanCreateStackedCheckboxesTwitterBootstrap3()
     {
-
         $this->former->framework('TwitterBootstrap3');
 
         $checkboxes1 = $this->former->stacked_checkboxes('foo')->checkboxes('foo', 'bar')->__toString();
@@ -248,12 +247,10 @@ class CheckboxTest extends FormerTests
 
     public function testCanCheckMultipleCheckboxesAtOnce()
     {
-        $checkboxes = $this->former->checkboxes('foo')->checkboxes('foo', 'bar')->check(
-            array(
+        $checkboxes = $this->former->checkboxes('foo')->checkboxes('foo', 'bar')->check(array(
             'foo_0' => false,
             'foo_1' => true,
-            )
-        )->__toString();
+        ))->__toString();
         $matcher    = $this->controlGroup($this->matchCheckbox('foo_0', 'Foo').$this->matchCheckedCheckbox('foo_1', 'Bar', 1));
 
         $this->assertEquals($matcher, $checkboxes);
@@ -301,27 +298,25 @@ class CheckboxTest extends FormerTests
         $eloquent = new DummyEloquent;
 
         $roles = array(
-        'Value 01' => array(
-        'name'  => 'rolesAsCollection[1]',
-        'value' => '1',
-        ),
-        'Value 02' => array(
-        'name'  => 'rolesAsCollection[2]',
-        'value' => '2',
-        ),
+            'Value 01' => array(
+                'name'  => 'rolesAsCollection[1]',
+                'value' => '1',
+            ),
+            'Value 02' => array(
+                'name'  => 'rolesAsCollection[2]',
+                'value' => '2',
+            ),
         );
 
         $this->former->populate($eloquent);
         $checkboxes = $this->former->checkboxes('rolesAsCollection[]')->checkboxes($roles)->__toString();
 
-        $this->assertEquals(
-            $this->controlGroup(
-                '<label for="rolesAsCollection[1]" class="checkbox">'.
-                '<input value="1" id="rolesAsCollection[1]" type="checkbox" name="rolesAsCollection[1]" checked="checked">Value 01</label>'.
-                '<label for="rolesAsCollection[2]" class="checkbox"><input value="2" id="rolesAsCollection[2]" type="checkbox" name="rolesAsCollection[2]">Value 02</label>',
-                '<label for="rolesAsCollection" class="control-label">RolesAsCollection</label>'
-            ), $checkboxes
-        );
+        $this->assertEquals($this->controlGroup(
+            '<label for="rolesAsCollection[1]" class="checkbox">'.
+            '<input value="1" id="rolesAsCollection[1]" type="checkbox" name="rolesAsCollection[1]" checked="checked">Value 01</label>'.
+            '<label for="rolesAsCollection[2]" class="checkbox"><input value="2" id="rolesAsCollection[2]" type="checkbox" name="rolesAsCollection[2]">Value 02</label>',
+            '<label for="rolesAsCollection" class="control-label">RolesAsCollection</label>'
+        ), $checkboxes);
     }
 
     public function testCanDecodeCorrectlyCheckboxes()
@@ -405,7 +400,8 @@ class CheckboxTest extends FormerTests
             '</label>'.
             '<label for="value_1" class="checkbox">'.
             '<input id="value_1" type="checkbox" name="value[]" value="1">Value 02'.
-            '</label>', $auto
+            '</label>',
+            $auto
         );
     }
 
@@ -414,16 +410,16 @@ class CheckboxTest extends FormerTests
         $this->former->framework('Nude');
 
         $checkboxes = array(
-        'Value 01' => array(
-        'id'    => 'value[foo_id]',
-        'name'  => 'value[foo_name]',
-        'value' => 'foo_value',
-        ),
-        'Value 02' => array(
-        'id'    => 'value[bar_id]',
-        'name'  => 'value[bar_name]',
-        'value' => 'bar_value',
-        ),
+            'Value 01' => array(
+                'id'    => 'value[foo_id]',
+                'name'  => 'value[foo_name]',
+                'value' => 'foo_value',
+            ),
+            'Value 02' => array(
+                'id'    => 'value[bar_id]',
+                'name'  => 'value[bar_name]',
+                'value' => 'bar_value',
+            ),
         );
 
         $this->former->populate(array('value' => array('foo_name' => 'foo_value')));
@@ -437,7 +433,8 @@ class CheckboxTest extends FormerTests
             '</label>'.
             '<label for="value[bar_id]" class="checkbox">'.
             '<input id="value[bar_id]" value="bar_value" type="checkbox" name="value[bar_name]">Value 02'.
-            '</label>', $auto
+            '</label>',
+            $auto
         );
     }
 
@@ -450,15 +447,15 @@ class CheckboxTest extends FormerTests
         $auto  = $this->former->checkboxes('foo[]', '')->checkboxes('Value 01', 'Value 02', 'Value 03')->__toString();
 
         $matcher =
-        '<label for="foo_0" class="checkbox">'.
-        '<input id="foo_0" type="checkbox" name="foo[]" checked="checked" value="0">Value 01'.
-        '</label>'.
-        '<label for="foo_1" class="checkbox">'.
-        '<input id="foo_1" type="checkbox" name="foo[]" checked="checked" value="1">Value 02'.
-        '</label>'.
-        '<label for="foo_2" class="checkbox">'.
-        '<input id="foo_2" type="checkbox" name="foo[]" value="2">Value 03'.
-        '</label>';
+            '<label for="foo_0" class="checkbox">'.
+            '<input id="foo_0" type="checkbox" name="foo[]" checked="checked" value="0">Value 01'.
+            '</label>'.
+            '<label for="foo_1" class="checkbox">'.
+            '<input id="foo_1" type="checkbox" name="foo[]" checked="checked" value="1">Value 02'.
+            '</label>'.
+            '<label for="foo_2" class="checkbox">'.
+            '<input id="foo_2" type="checkbox" name="foo[]" value="2">Value 03'.
+            '</label>';
 
         $this->assertEquals($matcher, $chain);
         $this->assertEquals($matcher, $auto);
@@ -477,15 +474,15 @@ class CheckboxTest extends FormerTests
         $auto  = $this->former->checkboxes('foo[]', '')->checkboxes('Value 01', 'Value 02', 'Value 03')->__toString();
 
         $matcher =
-        '<label for="foo_0" class="checkbox">'.
-        '<input id="foo_0" type="checkbox" name="foo[]" checked="checked" value="0">Value 01'.
-        '</label>'.
-        '<label for="foo_1" class="checkbox">'.
-        '<input id="foo_1" type="checkbox" name="foo[]" checked="checked" value="1">Value 02'.
-        '</label>'.
-        '<label for="foo_2" class="checkbox">'.
-        '<input id="foo_2" type="checkbox" name="foo[]" value="2">Value 03'.
-        '</label>';
+            '<label for="foo_0" class="checkbox">'.
+            '<input id="foo_0" type="checkbox" name="foo[]" checked="checked" value="0">Value 01'.
+            '</label>'.
+            '<label for="foo_1" class="checkbox">'.
+            '<input id="foo_1" type="checkbox" name="foo[]" checked="checked" value="1">Value 02'.
+            '</label>'.
+            '<label for="foo_2" class="checkbox">'.
+            '<input id="foo_2" type="checkbox" name="foo[]" value="2">Value 03'.
+            '</label>';
 
         $this->assertEquals($matcher, $chain);
         $this->assertEquals($matcher, $auto);
@@ -496,16 +493,16 @@ class CheckboxTest extends FormerTests
         $this->former->framework('Nude');
 
         $checkboxes = array(
-        'Value 01' => array(
-        'id'    => 'value[foo_id]',
-        'name'  => 'value[foo_name]',
-        'value' => 'foo_value',
-        ),
-        'Value 02' => array(
-        'id'    => 'value[bar_id]',
-        'name'  => 'value[bar_name]',
-        'value' => 'bar_value',
-        ),
+            'Value 01' => array(
+                'id'    => 'value[foo_id]',
+                'name'  => 'value[foo_name]',
+                'value' => 'foo_value',
+            ),
+            'Value 02' => array(
+                'id'    => 'value[bar_id]',
+                'name'  => 'value[bar_name]',
+                'value' => 'bar_value',
+            ),
         );
 
         $this->request->shouldReceive('input')->with('_token', '', true)->andReturn('');
@@ -522,7 +519,8 @@ class CheckboxTest extends FormerTests
             '</label>'.
             '<label for="value[bar_id]" class="checkbox">'.
             '<input id="value[bar_id]" value="bar_value" type="checkbox" name="value[bar_name]">Value 02'.
-            '</label>', $auto
+            '</label>',
+            $auto
         );
     }
 
@@ -550,17 +548,17 @@ class CheckboxTest extends FormerTests
         $chain = $this->former->checkboxes('foo', '')->grouped()->checkboxes('Value 01', 'Value 02')->__toString();
 
         $matcher =
-        '<div class="control-group error">'.
-        '<div class="controls">'.
-        '<label for="foo_0" class="checkbox">'.
-        '<input id="foo_0" type="checkbox" name="foo[]" value="0">Value 01'.
-        '</label>'.
-        '<label for="foo_1" class="checkbox">'.
-        '<input id="foo_1" type="checkbox" name="foo[]" value="1">Value 02'.
-        '</label>'.
-        '<span class="help-inline">bar</span>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group error">'.
+            '<div class="controls">'.
+            '<label for="foo_0" class="checkbox">'.
+            '<input id="foo_0" type="checkbox" name="foo[]" value="0">Value 01'.
+            '</label>'.
+            '<label for="foo_1" class="checkbox">'.
+            '<input id="foo_1" type="checkbox" name="foo[]" value="1">Value 02'.
+            '</label>'.
+            '<span class="help-inline">bar</span>'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $auto);
         $this->assertEquals($matcher, $chain);
@@ -599,7 +597,7 @@ class CheckboxTest extends FormerTests
         $html = $this->former->label('<b>Views per Page</b>')->render();
         $html .= $this->former->checkbox('per_page')->class('input')->render();
 
-        $this->assertInternalType('string', $html);
+        $this->assertIsString($html);
     }
 
     public function testDisabled()
@@ -622,6 +620,8 @@ class CheckboxTest extends FormerTests
         $this->former->group();
         $output = $this->former->checkbox('foo')->text('bar').'';
         $this->former->closeGroup();
+
+        $this->assertIsString($output);
     }
 
     public function testCanBeManualyDefinied()

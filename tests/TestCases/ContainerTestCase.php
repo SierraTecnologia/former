@@ -3,14 +3,13 @@ namespace Former\TestCases;
 
 use Former\FormerServiceProvider;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Foundation\Application;
 use Mockery;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * A TestCase that creates a mocked Container to use as core
  */
-abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
+abstract class ContainerTestCase extends TestCase
 {
     /**
      * A cache of the container
@@ -29,15 +28,13 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     /**
      * Build the IoC Container for the tests
      */
-    protected function setUp(): void
+    public function setUp(): void
     {
         if (!static::$appCache) {
             // Added to prevent issues with the missing method used in Laravel 6+
-            MacroableContainer::macro(
-                'configurationIsCached', function () {
-                    return false;
-                }
-            );
+            MacroableContainer::macro('configurationIsCached', function () {
+                return false;
+            });
 
             $this->app = FormerServiceProvider::make(new MacroableContainer);
 
@@ -117,7 +114,8 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $defaults = include realpath(__DIR__.'/../../src/config/former.php');
 
         $options = array_merge(
-            $defaults, array(
+            $defaults,
+            array(
             'automatic_label'                     => true,
             'capitalize_translations'             => true,
             'default_form_type'                   => 'horizontal',
@@ -205,11 +203,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
             ),
             'ZurbFoundation5.wrappedLabelClasses' => array('right', 'inline'),
             'ZurbFoundation5.error_classes'       => array('class' => 'error'),
-            ), $options
+            ),
+            $options
         );
 
         return $this->mock(
-            'config', 'Config', function ($mock) use ($options) {
+            'config',
+            'Config',
+            function ($mock) use ($options) {
                 $mock->shouldReceive('application.encoding', Mockery::any())->andReturn('UTF-8');
                 $mock->shouldReceive('set')->with(Mockery::any(), Mockery::any());
 
@@ -233,12 +234,14 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $request = $this->mockRequest();
 
         $this->mock(
-            'url', 'Illuminate\Routing\UrlGenerator', function ($mock) use ($request) {
+            'url',
+            'Illuminate\Routing\UrlGenerator',
+            function ($mock) use ($request) {
                 return $mock
                     ->shouldReceive('getRequest')->andReturn($request)
                     ->shouldReceive('to')->andReturnUsing(
                         function ($url) {
-                                return $url == '#' ? $url : 'https://test/en/'.$url;
+                            return $url == '#' ? $url : 'https://test/en/'.$url;
                         }
                     )
                 ->shouldReceive('action')->with('UsersController@edit', array(2))->andReturn('/users/2/edit')
@@ -267,7 +270,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         );
 
         return $this->mock(
-            $binding, 'Illuminate\Contracts\Validation\Validator', function ($mock) use ($messageBag) {
+            $binding,
+            'Illuminate\Contracts\Validation\Validator',
+            function ($mock) use ($messageBag) {
                 return $mock->shouldReceive('getMessageBag')->andReturn($messageBag);
             }
         );
@@ -285,7 +290,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
         $messageBag = $this->mockMessageBag($errors);
 
         return $this->mock(
-            'session', 'Illuminate\Session\Store', function ($mock) use ($messageBag, $errors) {
+            'session',
+            'Illuminate\Session\Store',
+            function ($mock) use ($messageBag, $errors) {
                 $mock->shouldReceive('token')->andReturn('csrf_token');
                 if ($errors) {
                     $mock->shouldReceive('has')->with('errors')->andReturn(true);
@@ -327,7 +334,9 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     protected function mockTranslator()
     {
         return $this->mock(
-            'translator', 'Illuminate\Translation\Translator', function ($mock) {
+            'translator',
+            'Illuminate\Translation\Translator',
+            function ($mock) {
                 return $mock
                     ->shouldReceive('get')->with('pagination.next')->andReturn('Next')
                     ->shouldReceive('get')->with('pagination')->andReturn(array('previous' => 'Previous', 'next' => 'Next'))
@@ -335,7 +344,7 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
                     ->shouldReceive('get')->with('validation.attributes.address.city')->andReturn('City')
                     ->shouldReceive('get')->withAnyArgs()->andReturnUsing(
                         function ($key) {
-                                return $key;
+                            return $key;
                         }
                     )
                 ->shouldReceive('has')->with('pagination.next')->andReturn(true)
@@ -355,14 +364,16 @@ abstract class ContainerTestCase extends PHPUnit_Framework_TestCase
     protected function mockRequest()
     {
         return $this->mock(
-            'request', 'Illuminate\Http\Request', function ($mock) {
+            'request',
+            'Illuminate\Http\Request',
+            function ($mock) {
                 return $mock
                     ->shouldReceive('url')->andReturn('#')
                     ->shouldReceive('input')->andReturn(null)->byDefault()
                     ->shouldReceive('old')->andReturn(null)
                     ->shouldReceive('path')->andReturnUsing(
                         function () {
-                                return 'https://test/en/';
+                            return 'https://test/en/';
                         }
                     );
             }

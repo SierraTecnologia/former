@@ -13,12 +13,12 @@ class RadioTest extends FormerTests
     /**
      * Matches a radio element
      *
-     * @param string  $name
-     * @param string  $label
-     * @param integer $value
-     * @param boolean $inline
-     * @param boolean $checked
-     * @param mixed   $disabled If 'disabled', rendered as `disabled="disabled"`. If true, then rendered as `disabled`.
+     * @param  string $name
+     * @param  string $label
+     * @param  integer $value
+     * @param  boolean $inline
+     * @param  boolean $checked
+     * @param  mixed $disabled If 'disabled', rendered as `disabled="disabled"`. If true, then rendered as `disabled`.
      *
      * @return string
      */
@@ -31,16 +31,16 @@ class RadioTest extends FormerTests
         $disabled = false
     ) {
         $radioAttr = array(
-        'disabled' => $disabled === 'disabled' ? 'disabled' : null,
-        'id'       => $name,
-        'type'     => 'radio',
-        'name'     => preg_replace('/[0-9]/', null, $name),
-        'checked'  => 'checked',
-        'value'    => $value,
+            'disabled' => $disabled === 'disabled' ? 'disabled' : null,
+            'id'       => $name,
+            'type'     => 'radio',
+            'name'     => preg_replace('/[0-9]/', null, $name),
+            'checked'  => 'checked',
+            'value'    => $value,
         );
         $labelAttr = array(
-        'for'   => $name,
-        'class' => 'radio',
+            'for'   => $name,
+            'class' => 'radio',
         );
         if ($inline) {
             if ($this->former->framework() === 'TwitterBootstrap3') {
@@ -74,10 +74,10 @@ class RadioTest extends FormerTests
     /**
      * Matches a checked radio element
      *
-     * @param string  $name
-     * @param string  $label
-     * @param integer $value
-     * @param boolean $inline
+     * @param  string  $name
+     * @param  string  $label
+     * @param  integer $value
+     * @param  boolean $inline
      *
      * @return string
      */
@@ -162,7 +162,6 @@ class RadioTest extends FormerTests
 
     public function testStackedTwitterBootstrap3()
     {
-
         $this->former->framework('TwitterBootstrap3');
 
         $radios1 = $this->former->stacked_radios('foo')->radios('foo', 'bar')->__toString();
@@ -264,12 +263,10 @@ class RadioTest extends FormerTests
 
     public function testCheckMultipleCustom()
     {
-        $radios  = $this->former->radios('foo')->radios($this->radioCheckables)->check(
-            array(
+        $radios  = $this->former->radios('foo')->radios($this->radioCheckables)->check(array(
             'foo' => true,
             'bar' => false,
-            )
-        )->__toString();
+        ))->__toString();
         $matcher = $this->controlGroup(
             '<label for="foo" class="radio">'.
             '<input data-foo="bar" value="foo" id="foo" type="radio" name="foo" checked="checked">'.
@@ -319,7 +316,7 @@ class RadioTest extends FormerTests
 
         $radio = $this->former->radio('foo', 'bar')->__toString();
 
-        $this->assertInternalType('string', $radio);
+        $this->assertIsString($radio);
     }
 
     public function testDisabled()
@@ -342,6 +339,8 @@ class RadioTest extends FormerTests
         $this->former->group();
         $output = $this->former->radio('foo')->text('bar').'';
         $this->former->closeGroup();
+
+        $this->assertIsString($output);
     }
 
     public function testCanBeManualyDefinied()

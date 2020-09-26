@@ -19,11 +19,11 @@ class GroupTest extends FormerTests
     public function provideStates()
     {
         return array(
-        array('error'),
-        array('info'),
-        array('success'),
-        array('warning'),
-        array('foo'),
+            array('error'),
+            array('info'),
+            array('success'),
+            array('warning'),
+            array('foo'),
         );
     }
 
@@ -42,14 +42,14 @@ class GroupTest extends FormerTests
         }
 
         return
-        '<div class="control-group'.$state.'">'.
-        '<label for="foo" class="control-label">Foo</label>'.
-        '<div class="controls">'.
-        '<input id="foo" type="text" name="foo">'.
-        $inlineHelp.
-        $blockHelp.
-        '</div>'.
-        '</div>';
+            '<div class="control-group'.$state.'">'.
+            '<label for="foo" class="control-label">Foo</label>'.
+            '<div class="controls">'.
+            '<input id="foo" type="text" name="foo">'.
+            $inlineHelp.
+            $blockHelp.
+            '</div>'.
+            '</div>';
     }
 
     public function createPrependAppendMatcher($prepend = array(), $append = array())
@@ -74,16 +74,16 @@ class GroupTest extends FormerTests
         }
 
         return
-        '<div class="control-group">'.
-        '<label for="foo" class="control-label">Foo</label>'.
-        '<div class="controls">'.
-        '<div class="'.implode(' ', $class).'">'.
-        join(null, $prepend).
-        '<input id="foo" type="text" name="foo">'.
-        join(null, $append).
-        '</div>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group">'.
+            '<label for="foo" class="control-label">Foo</label>'.
+            '<div class="controls">'.
+            '<div class="'.implode(' ', $class).'">'.
+            join(null, $prepend).
+            '<input id="foo" type="text" name="foo">'.
+            join(null, $append).
+            '</div>'.
+            '</div>'.
+            '</div>';
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -200,9 +200,9 @@ class GroupTest extends FormerTests
     public function testPrependAppendMix()
     {
         $control = $this->former->text('foo')
-            ->prepend('@', $this->createButton('foo'))
-            ->append('@', $this->createButton('foo'))
-            ->__toString();
+                                ->prepend('@', $this->createButton('foo'))
+                                ->append('@', $this->createButton('foo'))
+                                ->__toString();
         $matcher = $this->createPrependAppendMatcher(
             array('@', '<button type="button" class="btn">foo</button>'),
             array('@', '<button type="button" class="btn">foo</button>')
@@ -241,29 +241,29 @@ class GroupTest extends FormerTests
     public function testAllTheThings()
     {
         $control = $this->former->text('foo')
-            ->state('error')
-            ->inlineHelp('foo')
-            ->blockHelp('bar')
-            ->prepend('@', '$', $this->createButton('foo'))
-            ->append('@', '$', $this->createButton('foo'))
-            ->__toString();
+                                ->state('error')
+                                ->inlineHelp('foo')
+                                ->blockHelp('bar')
+                                ->prepend('@', '$', $this->createButton('foo'))
+                                ->append('@', '$', $this->createButton('foo'))
+                                ->__toString();
         $matcher =
-        '<div class="control-group error">'.
-        '<label for="foo" class="control-label">Foo</label>'.
-        '<div class="controls">'.
-        '<div class="input-prepend input-append">'.
-        '<span class="add-on">@</span>'.
-        '<span class="add-on">$</span>'.
-        '<button type="button" class="btn">foo</button>'.
-        '<input id="foo" type="text" name="foo">'.
-        '<span class="add-on">@</span>'.
-        '<span class="add-on">$</span>'.
-        '<button type="button" class="btn">foo</button>'.
-        '</div>'.
-        '<span class="help-inline">Foo</span>'.
-        '<p class="help-block">Bar</p>'.
-        '</div>'.
-        '</div>';
+            '<div class="control-group error">'.
+            '<label for="foo" class="control-label">Foo</label>'.
+            '<div class="controls">'.
+            '<div class="input-prepend input-append">'.
+            '<span class="add-on">@</span>'.
+            '<span class="add-on">$</span>'.
+            '<button type="button" class="btn">foo</button>'.
+            '<input id="foo" type="text" name="foo">'.
+            '<span class="add-on">@</span>'.
+            '<span class="add-on">$</span>'.
+            '<button type="button" class="btn">foo</button>'.
+            '</div>'.
+            '<span class="help-inline">Foo</span>'.
+            '<p class="help-block">Bar</p>'.
+            '</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $control);
     }
@@ -289,9 +289,9 @@ class GroupTest extends FormerTests
     {
         $group   = $this->former->group('MyField')->contents('This be <b>HTML</b> content');
         $matcher = '<div class="control-group">'.
-        '<label for="MyField" class="control-label">MyField</label>'.
-        '<div class="controls">This be <b>HTML</b> content</div>'.
-        '</div>';
+            '<label for="MyField" class="control-label">MyField</label>'.
+            '<div class="controls">This be <b>HTML</b> content</div>'.
+            '</div>';
 
         $this->assertEquals($matcher, $group);
     }
@@ -349,14 +349,14 @@ class GroupTest extends FormerTests
         $this->former->group('foobar');
         $test = $this->former->text('foobar')->__toString();
 
-        $this->assertNotContains('control-group', $test);
+        $this->assertStringNotContainsString('control-group', $test);
     }
 
     public function testCanSetAttributesOnGroup()
     {
         $text = $this->former->text('foobar')->onGroupAddClass('foobar')->__toString();
 
-        $this->assertContains('control-group foobar', $text);
+        $this->assertStringContainsString('control-group foobar', $text);
     }
 
     public function testCloseUnopenedGroup()

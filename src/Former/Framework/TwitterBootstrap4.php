@@ -112,6 +112,8 @@ class TwitterBootstrap4 extends Framework implements FrameworkInterface
      * @param array $classes An array of classes
      *
      * @return string[] A filtered array
+     *
+     * @psalm-return array<array-key, string>
      */
     public function filterButtonClasses($classes)
     {

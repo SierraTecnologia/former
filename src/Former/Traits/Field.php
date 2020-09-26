@@ -149,9 +149,9 @@ abstract class Field extends FormerObject implements FieldInterface
     /**
      * Prints out the field, wrapped in its group
      *
-     * @return string
+     * @return null|string
      */
-    public function wrapAndRender()
+    public function wrapAndRender(): ?string
     {
         // Dry syntax (hidden fields, plain fields)
         if ($this->isUnwrappable()) {

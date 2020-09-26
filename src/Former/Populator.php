@@ -122,7 +122,7 @@ class Populator extends Collection
      *
      * @param string $field The field's name
      *
-     * @return string[] A tree of field
+     * @return string[]
      *
      * @psalm-return array<int, string>
      */

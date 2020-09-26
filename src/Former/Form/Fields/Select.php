@@ -77,9 +77,9 @@ class Select extends Field
     /**
      * Renders the select
      *
-     * @return string A <select> tag
+     * @return null|string A <select> tag
      */
-    public function render()
+    public function render(): ?string
     {
         // Multiselects
         if ($this->isOfType('multiselect')) {

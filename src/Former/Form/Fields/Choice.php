@@ -96,9 +96,9 @@ class Choice extends Field
     /**
      * Renders the choice
      *
-     * @return string A <select> tag
+     * @return null|string A <select> tag
      */
-    public function render()
+    public function render(): ?string
     {
         $choiceType = $this->getType();
         $this->setFieldClasses();
@@ -140,9 +140,9 @@ class Choice extends Field
     }
 
     /**
-     * @return (Element|mixed)[]
+     * @return Element[]
      *
-     * @psalm-return list<Element|mixed>
+     * @psalm-return list<Element>
      */
     public function getOptions(): array
     {

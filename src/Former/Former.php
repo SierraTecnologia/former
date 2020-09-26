@@ -201,63 +201,6 @@ class Former
     }
 
     /**
-     * Add live validation rules
-     *
-     * @param array * $rules An array of Laravel rules
-     *
-     * @return void
-     */
-    public function withRules()
-    {
-        $rules = call_user_func_array('array_merge', func_get_args());
-
-        // Parse the rules according to Laravel conventions
-        foreach ($rules as $name => $fieldRules) {
-            $expFieldRules = $fieldRules;
-            if (!is_array($expFieldRules)) {
-                if (is_object($expFieldRules)) {
-                    continue;
-                }
-
-                $expFieldRules = explode('|', $expFieldRules);
-                $expFieldRules = array_map('trim', $expFieldRules);
-            }
-
-            foreach ($expFieldRules as $rule) {
-                if (is_object($rule)) {
-                    continue;
-                }
-
-                $parameters = null;
-
-                if (($colon = strpos($rule, ':')) !== false) {
-                    $rulename = substr($rule, 0, $colon);
-
-                    /**
-                     * Regular expressions may contain commas and should not be divided by str_getcsv.
-                     * For regular expressions we are just using the complete expression as a parameter.
-                     */
-                    if ($rulename !== 'regex') {
-                        $parameters = str_getcsv(substr($rule, $colon + 1));
-                    } else {
-                        $parameters = [substr($rule, $colon + 1)];
-                    }
-                }
-
-                // Exclude unsupported rules
-                $rule = is_numeric($colon) ? substr($rule, 0, $colon) : $rule;
-
-                // Store processed rule in Former's array
-                if (!isset($parameters)) {
-                    $parameters = array();
-                }
-
-                $this->rules[$name][$rule] = $parameters;
-            }
-        }
-    }
-
-    /**
      * Switch the framework used by Former
      *
      * @param string $framework The name of the framework to use

@@ -57,9 +57,9 @@ class Input extends Field
     /**
      * Prints out the current tag
      *
-     * @return string An input tag
+     * @return null|string An input tag
      */
-    public function render()
+    public function render(): ?string
     {
         // Particular case of the search element
         if ($this->isOfType('search')) {

@@ -272,8 +272,10 @@ class Group extends Tag
      *
      * @param string $help       The help text
      * @param array  $attributes Facultative attributes
+     *
+     * @return false|null
      */
-    public function help($help, $attributes = array())
+    public function help($help, $attributes = array()): ?bool
     {
         return $this->inlineHelp($help, $attributes);
     }

@@ -111,7 +111,9 @@ class Helpers
      * @param string|function $text       The value to use as text
      * @param string|array    $attributes The data to use as attributes
      *
-     * @return array               A data array
+     * @return (mixed|string|string[])[]|Collection A data array
+     *
+     * @psalm-return Collection|array<array-key, array<array-key, string>|mixed|string>
      */
     public static function queryToArray($query, $text = null, $attributes = null)
     {

@@ -131,6 +131,7 @@ class Form extends FormerObject
         $attributes = Arr::get($parameters, 'attributes', array());
         $secure     = Arr::get($parameters, 'secure', null);
 
+        // dd($action, $method, $attributes, $parameters);
         // Open the form
         $this->action($action);
         $this->attributes = $attributes;
@@ -138,7 +139,7 @@ class Form extends FormerObject
         $this->secure     = $secure;
 
         if (isset($parameters['route'])) {
-            $this->route($parameters['route'][0], $parameters['route'][1]);
+            $this->route(array_shift($parameters['route']), $parameters['route']);
             unset($parameters['route']);
         }
         
@@ -281,7 +282,7 @@ class Form extends FormerObject
      *
      * @return Form
      */
-    public function route($name, $params = array())
+    public function route(string $name, array $params = array())
     {
         return $this->setRouteOrAction($name, $params, 'route');
     }
@@ -294,7 +295,7 @@ class Form extends FormerObject
      *
      * @return Form
      */
-    public function controller($name, $params = array())
+    public function controller(string $name, array $params = array())
     {
         return $this->setRouteOrAction($name, $params, 'action');
     }

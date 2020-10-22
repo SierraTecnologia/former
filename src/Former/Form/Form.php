@@ -282,7 +282,7 @@ class Form extends FormerObject
      *
      * @return Form
      */
-    public function route($name, $params = array())
+    public function route(string $name, array $params = array())
     {
         return $this->setRouteOrAction($name, $params, 'route');
     }
@@ -295,7 +295,7 @@ class Form extends FormerObject
      *
      * @return Form
      */
-    public function controller($name, $params = array())
+    public function controller(string $name, array $params = array())
     {
         return $this->setRouteOrAction($name, $params, 'action');
     }

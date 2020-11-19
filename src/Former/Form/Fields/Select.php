@@ -58,6 +58,16 @@ class Select extends Field
      */
     public function __construct(Container $app, $type, $name, $label, $options, $selected, $attributes)
     {
+        // dd($type, $name, $label, $options, $selected, $attributes);
+        if (is_array($label)) {
+            $attributes = $selected;
+            $selected = $options;
+            $options = $label;
+            $label = null; // @todo, capturar label
+        }
+
+
+
         if ($selected) {
             $this->value = $selected;
         }
@@ -172,11 +182,12 @@ class Select extends Field
      *
      * @param array   $_options     The options as an array
      * @param mixed   $selected     Facultative selected entry
-     * @param boolean $valuesAsKeys Whether the array's values should be used as
+     * @param bool    $valuesAsKeys Whether the array's values should be used as
      *                              the option's values instead of the array's keys
      */
-    public function options($_options, $selected = null, $valuesAsKeys = false)
+    public function options($_options, $selected = null, bool $valuesAsKeys = false)
     {
+        // dd($_options, $selected, $valuesAsKeys);
         $options = array();
 
         // If valuesAsKeys is true, use the values as keys

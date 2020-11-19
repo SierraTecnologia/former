@@ -188,6 +188,7 @@ class MethodDispatcher
     {
         // Listing parameters
         $class = $this->getClassFromMethod($method);
+
         $field = new $class(
             $this->app,
             $method,

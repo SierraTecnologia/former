@@ -6,6 +6,7 @@ use Former\Traits\Field;
 use HtmlObject\Element;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Everything list-related (select, multiselect, ...)
@@ -59,7 +60,7 @@ class Select extends Field
     public function __construct(Container $app, $type, $name, $label, $options, $selected, $attributes)
     {
         // dd($type, $name, $label, $options, $selected, $attributes);
-        if (is_array($label)) {
+        if (is_array($label) || is_a($label, Collection::class)) {
             $attributes = $selected;
             $selected = $options;
             $options = $label;

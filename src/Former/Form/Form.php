@@ -139,7 +139,11 @@ class Form extends FormerObject
         $this->secure     = $secure;
 
         if (isset($parameters['route'])) {
-            $this->route(array_shift($parameters['route']), $parameters['route']);
+            if (is_array($parameters['route'])) {
+                $this->route(array_shift($parameters['route']), $parameters['route']);
+            } else {
+                $this->route($parameters['route']);
+            }
             unset($parameters['route']);
         }
         

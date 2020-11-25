@@ -131,6 +131,14 @@ class Form extends FormerObject
         $attributes = Arr::get($parameters, 'attributes', array());
         $secure     = Arr::get($parameters, 'secure', null);
 
+
+        if (isset($parameters['id'])) {
+            $attributes['id'] = $parameters['id'];
+        }
+        if (isset($parameters['class'])) {
+            $attributes['class'] = $parameters['class'];
+        }
+
         // dd($action, $method, $attributes, $parameters);
         // Open the form
         $this->action($action);

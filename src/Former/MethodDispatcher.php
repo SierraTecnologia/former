@@ -189,19 +189,7 @@ class MethodDispatcher
         // Listing parameters
         $class = $this->getClassFromMethod($method);
 
-
-        //$type, $name, $label, $value, $attributes
-        if (!isset($parameters[3])) {
-            $parameters = [
-                $parameters[0],
-                $parameters[1],
-                null,
-                Arr::get($parameters, 2),
-                Arr::get($parameters, 3),
-                Arr::get($parameters, 4)
-            ];
-        }
-        $field = new $class(
+        return new $class(
             $this->app,
             $method,
             Arr::get($parameters, 0),
@@ -210,9 +198,7 @@ class MethodDispatcher
             Arr::get($parameters, 3),
             Arr::get($parameters, 4),
             Arr::get($parameters, 5)
-        );
-
-        return $field;
+        );;
     }
 
     ////////////////////////////////////////////////////////////////////

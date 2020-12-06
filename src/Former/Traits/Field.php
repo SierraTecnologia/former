@@ -90,6 +90,7 @@ abstract class Field extends FormerObject implements FieldInterface
      */
     public function __construct(Container $app, $type, $name, $label, $value, $attributes)
     {
+        
         // Set base parameters
         $this->app   = $app;
         $this->type  = $type;

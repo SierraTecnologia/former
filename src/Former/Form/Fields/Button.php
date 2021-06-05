@@ -50,8 +50,13 @@ class Button extends Field
      */
     public function __construct(Container $app, $type, $value, $link, $attributes)
     {
-        $this->app        = $app;
         $this->attributes = (array) $attributes;
+        if (is_array($link)) {
+            $this->attributes = (array) $link;
+            $this->link = $attributes;
+        }
+
+        $this->app        = $app;
         $this->type       = $type;
         $this->value($value);
 

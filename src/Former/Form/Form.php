@@ -107,6 +107,11 @@ class Form extends FormerObject
     
     private function openFormParameters(array $parameters)
     {
+        if (empty($parameters)) {
+            \Log::debug('OpenFormParameters sem parameters');
+            return ;
+        }
+
         if (is_string($parameters[0])) {
             $action     = Arr::get($parameters, 0);
             $method     = Arr::get($parameters, 1, 'POST');
@@ -130,6 +135,14 @@ class Form extends FormerObject
         $method     = Arr::get($parameters, 'method', 'POST');
         $attributes = Arr::get($parameters, 'attributes', array());
         $secure     = Arr::get($parameters, 'secure', null);
+
+
+        if (isset($parameters['id'])) {
+            $attributes['id'] = $parameters['id'];
+        }
+        if (isset($parameters['class'])) {
+            $attributes['class'] = $parameters['class'];
+        }
 
         // dd($action, $method, $attributes, $parameters);
         // Open the form
